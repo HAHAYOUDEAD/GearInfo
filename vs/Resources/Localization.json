@@ -1,0 +1,185 @@
+﻿{
+  "GI_ModName": {
+
+    "English": "Mod name",
+    "Russian": "Название мода"
+  },
+  "GI_PrefabName": {
+
+    "English": "Prefab name",
+    "Russian": "Имя объекта"
+  },
+  "GI_DLCName": {
+
+    "English": "DLC name",
+    "Russian": "Название DLC"
+  },
+  "GI_EnglishName": {
+
+    "English": "Item name in English",
+    "Russian": "Название на английском"
+  },
+  "GI_LocalizedName": {
+
+    "English": "Item name in system language",
+    "Russian": "Название на языке системы"
+  },
+  "GI_Weight": {
+
+    "English": "Weight",
+    "Russian": "Вес"
+  },
+  "GI_ShelfLife": {
+
+    "English": "Shelf life",
+    "Russian": "Хранение"
+  },
+  "GI_DecayRate": {
+
+    "English": "Decay rate",
+    "Russian": "Скорость порчи"
+  },
+  "GI_Days": {
+
+    "English": "days",
+    "Russian": "дней"
+  },
+  "GI_PPD": {
+
+    "English": "% per day",
+    "Russian": "% в день"
+  },
+  "GI_Outdoors": {
+
+    "English": "Outdoors",
+    "Russian": "Вне дома"
+  },
+  "GI_CurrentPoisonChance": {
+
+    "English": "Current poisoning chance",
+    "Russian": "Текущий шанс отравиться"
+  },
+  "GI_PoisonChance": {
+
+    "English": "Poisoning chance",
+    "Russian": "Шанс отравиться"
+  },
+  "GI_FromDifficulty": {
+
+    "English": "Difficulty settings",
+    "Russian": "Настройки сложности"
+  },
+  "GI_RawMeat": {
+
+    "English": "Raw meat",
+    "Russian": "Сырое мясо"
+  },
+  "GI_InsignificantCalories": {
+
+    "English": "Morsel",
+    "Russian": "Остатки"
+  },
+  "GI_Above75Condition": {
+
+    "English": "Fresh",
+    "Russian": "Свежее"
+  },
+  "GI_WornOut": {
+
+    "English": "Spoiled",
+    "Russian": "Испорченное"
+  },
+  "GI_Below20Condition": {
+
+    "English": "Stale",
+    "Russian": "Несвежее"
+  },
+  "GI_BasePoisonChance": {
+
+    "English": "Regular chance",
+    "Russian": "Обычный шанс"
+  },
+  "GI_AtLowCondition": {
+
+    "English": "When stale",
+    "Russian": "Несвежее"
+  },
+  "GI_WhenRuined": {
+
+    "English": "When spoiled",
+    "Russian": "Испорченное"
+  },
+  "GI_WearOutRate": {
+
+    "English": "Wear out rate",
+    "Russian": "Износ"
+  },
+  "GI_ThirstAdd": {
+
+    "English": "Thirst provoking",
+    "Russian": "Вызывание жажды"
+  },
+  "GI_ThirstQuench": {
+
+    "English": "Thirst quenching",
+    "Russian": "Утоление жажды"
+  },
+  "GI_VitaminC": {
+
+    "English": "Vitamin C",
+    "Russian": "Витамин C"
+  },
+  "GI_Warmth": {
+
+    "English": "Base warmth",
+    "Russian": "Согревание"
+  },
+  "GI_Windproofness": {
+
+    "English": "Windproofness",
+    "Russian": "Ветрозащита"
+  },
+
+
+
+
+  "GI_AdjustForDifficulty": {
+
+    "English": "Adjust for current difficulty",
+    "Russian": "С учётом текущего уровня сложности"
+  },
+
+
+
+
+
+
+
+
+
+  "GI_Message_Copied": {
+
+    "English": "Info copied to clipboard",
+    "Russian": "Скопировано в буфер обмена"
+  },
+
+
+
+
+
+  "GI_IsCat": {
+
+    "English": "Is this a cat?",
+    "Russian": "Это кот?"
+  },
+  "GI_CouldBeACat": {
+
+    "English": "You could say so",
+    "Russian": "В некоторой степени"
+  },
+  "GI_AbsolutelyNotACat": {
+
+    "English": "In no way is this a cat",
+    "Russian": "Ни в коем случае"
+  }
+}
