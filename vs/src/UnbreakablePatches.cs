@@ -52,7 +52,7 @@ namespace GearInfo
                     }
                     // show UI
                     Control.GIUIRoot.active = true;
-                    Control.CalculateButtonPosition();
+                    Control.CalculateMainButtonPosition();
                 }
                 else
                 {

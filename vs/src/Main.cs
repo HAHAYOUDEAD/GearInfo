@@ -13,7 +13,7 @@ namespace GearInfo
 
         public static string modsPath;
 
-        public static string systemLanguage = "English";
+        public static string systemLanguage = "";
 
         public override void OnInitializeMelon()
         {
@@ -39,9 +39,18 @@ namespace GearInfo
             }
 
             Settings.OnLoad();
-
-            systemLanguage = Panel_OptionsMenu.GetLanguageStringFromSystemLang();
         }
+
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        {
+            if (IsMainMenu(sceneName) && string.IsNullOrEmpty(systemLanguage))
+            {
+                systemLanguage = Panel_OptionsMenu.GetLanguageStringFromSystemLang();
+            }
+        }
+
+
+
     }
 }
 

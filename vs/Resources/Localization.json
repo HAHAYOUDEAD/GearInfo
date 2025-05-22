@@ -109,10 +109,10 @@
     "English": "When spoiled",
     "Russian": "Испорченное"
   },
-  "GI_WearOutRate": {
+  "GI_ClothingWearOutRate": {
 
     "English": "Wear out rate",
-    "Russian": "Износ"
+    "Russian": "Износ одежды"
   },
   "GI_ThirstAdd": {
 
@@ -138,6 +138,81 @@
 
     "English": "Windproofness",
     "Russian": "Ветрозащита"
+  },
+  "GI_BreakThreshold": {
+
+    "English": "Breaking threshold",
+    "Russian": "Граница прочности"
+  },
+  "GI_CurrentBreakChance": {
+
+    "English": "Current chance",
+    "Russian": "Шанс поломки"
+  },
+  "GI_ToolDegrade": {
+
+    "English": "Condition loss",
+    "Russian": "Износ инструмента"
+  },
+  "GI_WeaponDegrade": {
+
+    "English": "Condition loss",
+    "Russian": "Износ оружия"
+  },
+  "GI_PPU": {
+
+    "English": "% per use",
+    "Russian": "% за раз"
+  },
+  "GI_ToolIceDamage": {
+
+    "English": "Making ice hole",
+    "Russian": "Делая прорубь"
+  },
+  "GI_AffectedBySkill": {
+
+    "English": "Affected by skill",
+    "Russian": "Зависит от умения"
+  },
+  "GI_ArrowDurability": {
+
+    "English": "Arrow durability",
+    "Russian": "Прочность стрелы"
+  },
+  "GI_ArrowDamage": {
+
+    "English": "Damage",
+    "Russian": "Урон"
+  },
+  "GI_ArrowConditionLoss": {
+
+    "English": "Condition loss on hit",
+    "Russian": "Износ стрелы при попадании"
+  },
+  "GI_HitAnimal": {
+
+    "English": "Flesh",
+    "Russian": "Плоть"
+  },
+  "GI_HitWood": {
+
+    "English": "Wood",
+    "Russian": "Дерево"
+  },
+  "GI_HitSnow": {
+
+    "English": "Snow",
+    "Russian": "Снег"
+  },
+  "GI_HitStone": {
+
+    "English": "Stone",
+    "Russian": "Камень"
+  },
+  "GI_HitMetal": {
+
+    "English": "Metal",
+    "Russian": "Метал"
   },
 
 

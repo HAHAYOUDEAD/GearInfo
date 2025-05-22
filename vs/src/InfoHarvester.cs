@@ -10,6 +10,8 @@ using System.Text.RegularExpressions;
 using UnityEngine.AddressableAssets.ResourceLocators;
 
 using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.UIElements;
+using static Il2CppSystem.Linq.Expressions.Interpreter.CastInstruction.CastInstructionNoT;
 
 namespace GearInfo
 {
@@ -17,7 +19,15 @@ namespace GearInfo
     {
         public static int baseGameBundleNum;
 
-
+        private const float surfaceHardnessFlatMult = 86.6666667f;
+        private static readonly Dictionary<string, float> surfaceHardness = new() 
+        {
+            { "Animal", 0.35f * surfaceHardnessFlatMult },
+            { "Wood", 0.5f * surfaceHardnessFlatMult },
+            { "Snow", 0.05f * surfaceHardnessFlatMult },
+            { "Metal", 0.75f * surfaceHardnessFlatMult },
+            { "Stone", 0.98f * surfaceHardnessFlatMult },
+        };
 
         public enum ButtonType
         {
@@ -103,25 +113,27 @@ namespace GearInfo
         {
             Array.Clear(result, 0, result.Length);
              
-            if (Localization.Language != "English")
+            if (Localization.Language != "English") // doesn't work with mod items unless language first switched to english and the back to native
             {
                 result[0] = Localization.Get("GI_EnglishName");
-                result[1] = Localization.GetForLang(gear.GearItemData.DisplayNameLocID, "English");
+                result[1] = Localization.GetForFallbackLanguage(gear.GearItemData.DisplayNameLocID);
                 return true;
             }
-            else if (Main.systemLanguage != "English") // doesn't work?
-            {
-                result[0] = Localization.Get("GI_LocalizedName");
-                result[1] = Localization.GetForLang(gear.GearItemData.DisplayNameLocID, Main.systemLanguage);
-                return true;
-            }
+            //else if (Main.systemLanguage != "English") // not feasible, would need to preload the whole language table
+            //{
+            //    result[0] = Localization.Get("GI_LocalizedName");
+            //    result[1] = Localization.GetForLang(gear.GearItemData.DisplayNameLocID, Main.systemLanguage);
+            //    return true;
+            //}
 
             return false;
         }
 
-        internal static bool TryGetFoodDecayRates(GearItem gear, bool convertToDays, bool adjustForDifficulty, string[] result) 
+        internal static bool TryGetFoodDecayRates(GearItem gear, bool convertToDays, string[] result) 
         {
             Array.Clear(result, 0, result.Length);
+
+            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
 
             if (gear.TryGetComponent(out FoodItem fi))
             {
@@ -148,9 +160,11 @@ namespace GearInfo
             return false;
         }
 
-        internal static bool TryGetFoodPoisonChance(GearItem gear, bool calculateCurrent, bool adjustForDifficulty, string[] result)
+        internal static bool TryGetFoodPoisonChance(GearItem gear, bool calculateCurrent, string[] result)
         {
             Array.Clear(result, 0, result.Length);
+
+            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
 
             if (gear.TryGetComponent(out FoodItem fi))
             {
@@ -260,9 +274,11 @@ namespace GearInfo
             return false;
         }
 
-        internal static bool TryGetClothingDecayRates(GearItem gear, bool adjustForDifficulty, string[] result)
+        internal static bool TryGetClothingDecayRates(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
+
+            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
 
             if (gear.TryGetComponent(out ClothingItem ci))
             {
@@ -271,7 +287,7 @@ namespace GearInfo
                 float decayIn = ci.m_DailyHPDecayWhenWornInside / gear.GearItemData.MaxHP * 100f * mult;
                 float decayOut = ci.m_DailyHPDecayWhenWornOutside / gear.GearItemData.MaxHP * 100f * mult;
 
-                result[0] = Localization.Get("GI_WearOutRate");
+                result[0] = Localization.Get("GI_ClothingWearOutRate");
                 result[1] = $"{decayIn:F2}{Localization.Get("GI_PPD")}";
                 result[2] = $"/ {Localization.Get("GI_Outdoors")}";
                 result[3] = $"{decayOut:F2}{Localization.Get("GI_PPD")}";
@@ -309,6 +325,118 @@ namespace GearInfo
 
             return false;
         }
+
+        internal static bool TryGetDegradeOnUse(GearItem gear, string[] result, out bool isIcePick)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            isIcePick = false;
+
+            if (gear.TryGetComponent(out IceFishingHoleClearItem ice))
+            { 
+                isIcePick = true;
+
+                result[2] = $"/ {Localization.Get("GI_ToolIceDamage")}";
+                result[3] = $"{ice.m_HPDecreaseToClear / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPU")}";
+            }
+
+            if (gear.TryGetComponent(out DegradeOnUse dou))
+            {
+                float degrade = dou.m_DegradeHP;
+                bool isWeapon = false;
+
+                if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Rifle)
+                {
+                    degrade *= GameManager.GetSkillRifle().GetConditionDegradeScale();
+                    isWeapon = true;
+                }
+                if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Revolver)
+                {
+                    degrade *= GameManager.GetSkillRevolver().GetConditionDegradeScale();
+                    isWeapon = true;
+                }
+                if (gear.m_BowItem)
+                {
+                    degrade *= GameManager.GetSkillArchery().GetConditionDegradeScale();
+                    isWeapon = true;
+                }
+
+                result[0] = isWeapon ? Localization.Get("GI_WeaponDegrade") : Localization.Get("GI_ToolDegrade");
+                result[1] = $"{(degrade / gear.GearItemData.MaxHP * 100f):0.#}{Localization.Get("GI_PPU")}";
+                if (isWeapon)
+                {
+                    result[1] += $" ({Localization.Get("GI_AffectedBySkill")})";
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetToolBreakChance(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out DegradeOnUse dou))
+            {
+                float threshold = gear.GearItemData.m_GearBreakConditionThreshold;
+
+                float chance = gear.GetNormalizedCondition() / (threshold / 100f);
+                chance = Mathf.Clamp(chance, 0f, 1f);
+                chance = 1f - chance;
+                chance = Mathf.Pow(chance, 2f);
+                chance = Mathf.Lerp(0f, 100f, chance);
+
+                result[0] = Localization.Get("GI_BreakThreshold");
+                result[1] = $"{threshold}%";
+                result[2] = $"/ {Localization.Get("GI_CurrentBreakChance")}";
+                result[3] = $"{chance:0.##}%";
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetArrowInfo(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out ArrowItem ai))
+            {
+                result[0] = Localization.Get("GI_ArrowDurability");
+                result[1] = $"{gear.GearItemData.MaxHP}";
+                result[2] = $"/ {Localization.Get("GI_ArrowDamage")}";
+                result[3] = $"{ai.m_VictimDamage}";
+                return true;
+            }
+
+            return false;
+        }
+        internal static bool TryGetArrowHitConditionLoss(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out ArrowItem ai))
+            {
+                float animal = surfaceHardness["Animal"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+                float wood = surfaceHardness["Wood"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+                float snow = surfaceHardness["Snow"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+                float metal = surfaceHardness["Metal"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+                float stone = surfaceHardness["Stone"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+
+                result[0] = Localization.Get("GI_ArrowConditionLoss");
+                result[1] = $"{(int)animal}% ({Localization.Get("GI_HitAnimal")})/ {(int)wood}% ({Localization.Get("GI_HitWood")})/" +
+                    $"{(int)snow}% ({Localization.Get("GI_HitSnow")})/ {(int)stone}% ({Localization.Get("GI_HitStone")})";
+                return true;
+
+                // clamp 0-100 %
+                // snow is a bit more than calculated, stone is a bit less
+            }
+
+            return false;
+        }
+
 
         internal static bool TryGetIsCat(GearItem gear, string[] result)
         {

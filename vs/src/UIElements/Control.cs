@@ -17,8 +17,8 @@ namespace GearInfo
         public static GameObject DoubleEntry;
         public static Transform WindowListRoot;
 
-        private static Queue<GameObject> singlePool = new();
-        private static Queue<GameObject> doublePool = new();
+        private static Queue<GameObject> singleEntryPool = new();
+        private static Queue<GameObject> doubleEntryPool = new();
         private static List<GameObject> activeEntries = new();
 
         private static bool buttonOnLeftSide = false;
@@ -47,39 +47,8 @@ namespace GearInfo
                 MainButton.onClick.AddListener(DelegateSupport.ConvertDelegate<UnityAction>(new Action(MainButtonAction)));
                 DifficultyToggle.isOn = Settings.options.adjustForDifficulty;
                 DifficultySwitchReplaceGraphic(DifficultyToggle.isOn);
-                DifficultyToggle.onValueChanged.AddListener(DelegateSupport.ConvertDelegate<UnityAction<bool>>(DifficultySwitch));
+                DifficultyToggle.onValueChanged.AddListener(DelegateSupport.ConvertDelegate<UnityAction<bool>>(DifficultySwitchAction));
                 MainWindow.active = false;
-            }
-        }
-
-        public static bool IsWindowEnabled()
-        {
-            if (GIUIRoot)
-            {
-                if (MainWindow)
-                {
-                    return MainWindow.active;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            Log(CC.Red, "GIUI not initialized. WindowEnabled");
-            return false;
-        }
-
-        public static void ToggleWindow(bool enable)
-        {
-            if (GIUIRoot)
-            {
-                AdjustUIPosition(!enable);
-
-                MainWindow.active = enable;
-
-                if (enable) SetupRelevantData();
-                else ResetWindow();
             }
         }
 
@@ -128,161 +97,146 @@ namespace GearInfo
             }
             if (gi == null) return;
 
-            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
-
-            //ResetWindow();
-            ClearEntries();
-
-            //WindowListRoot.GetComponent<VerticalLayoutGroup>().enabled = false;
-            //WindowListRoot.gameObject.SetActive(false); // disable to prevent layout rebuilds while adding new entries
-            //WindowListRoot.GetComponent<Canvas>().enabled = false;
+            
 
             GameObject? entry = null;
             GearInfoUIEntry? comp = null;
-            
 
-            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            //sw.Start();
-            //WindowListRoot.GetComponent<VerticalLayoutGroup>().enabled = false; // disable to prevent layout rebuilds while adding new entries
+            ClearEntries(); // pool entries
 
             // General section
-            // Mod/DLC
+                // Mod/DLC
             if (TryGetItemOrigin(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(SingleEntry, "InfoOrigin", singlePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(SingleEntry, "InfoOrigin", out comp);
                 comp.SetFields(globalTextArray);
             }
-            //MelonLogger.Msg("origin " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            // Prefab name
-            entry = PrepareNewEntry(SingleEntry, "InfoName", singlePool, out comp);
-            //comp = entry.AddComponent<GearInfoUIEntry>();
 
+                // Prefab name
+            entry = PrepareNewEntry(SingleEntry, "InfoName", out comp);
             comp.SetFields([Localization.Get("GI_PrefabName"), gi.name]);
             comp.SetButton(ButtonType.Copy, () => CopyButtonAction(gi.name));
-            //MelonLogger.Msg("name " + gi.name + " " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            // Localized name
-            
+
+                // Localized name
             if (TryGetLocalizedName(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(SingleEntry, "InfoLocalizedName", singlePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
+                entry = PrepareNewEntry(SingleEntry, "InfoLocalizedName", out comp);
                 comp.SetFields(globalTextArray);
             }
-            //MelonLogger.Msg("loc name" + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
 
-            // Weight in units
+                // Weight in units
             if (TryGetItemWeight(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(SingleEntry, "InfoWeight", singlePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(SingleEntry, "InfoWeight", out comp);
                 comp.SetFields(globalTextArray);
             }
-            
-            //MelonLogger.Msg("weight " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            // Food section
-            // Decay
-            if (TryGetFoodDecayRates(gi, true, adjustForDifficulty, globalTextArray))
-            {
-                entry = PrepareNewEntry(DoubleEntry, "InfoFoodDecay", doublePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
 
-                TryGetFoodDecayRates(gi, false, adjustForDifficulty, globalAltTextArray);
+            // Food section
+                // Decay
+            if (TryGetFoodDecayRates(gi, true, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoFoodDecay", out comp);
+
+                TryGetFoodDecayRates(gi, false, globalAltTextArray);
                 comp.SetFields(Settings.options.decayAlt ? globalAltTextArray : globalTextArray, AltInfoType.Decay);
 
-                var localComp = comp; // otherwise global var is captured in button action lambda
+                var localComp = comp; // otherwise global vars are captured in button action lambda
                 var localResult = globalTextArray;
+                var localAltResult = globalAltTextArray;
 
-                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, globalAltTextArray));
+                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
-            //MelonLogger.Msg("decay " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            // Poisoning
-            if (TryGetFoodPoisonChance(gi, true, adjustForDifficulty, globalTextArray))
-            {
-                entry = PrepareNewEntry(SingleEntry, "InfoFoodPoisoning", singlePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
 
-                TryGetFoodPoisonChance(gi, false, adjustForDifficulty, globalAltTextArray);
+                // Poisoning
+            if (TryGetFoodPoisonChance(gi, true, globalTextArray))
+            {
+                entry = PrepareNewEntry(SingleEntry, "InfoFoodPoisoning", out comp);
+
+                TryGetFoodPoisonChance(gi, false, globalAltTextArray);
                 comp.SetFields(Settings.options.foodPoisoningAlt ? globalAltTextArray : globalTextArray, AltInfoType.Poisoning);
 
                 var localComp = comp;
                 var localResult = globalTextArray;
+                var localAltResult = globalAltTextArray;
 
-                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, globalAltTextArray));
+                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
-            //MelonLogger.Msg("poison " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            // Thirst and vitamin C
+
+                // Thirst and vitamin C
             if (TryGetThirstAndVitC(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(DoubleEntry, "InfoThirstVitC", doublePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(DoubleEntry, "InfoThirstVitC", out comp);
                 comp.SetFields(globalTextArray);
             }
-            //MelonLogger.Msg("thirst" + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
 
             // Clothing section
-            // Decay
-            if (TryGetClothingDecayRates(gi, adjustForDifficulty, globalTextArray))
+                // Decay
+            if (TryGetClothingDecayRates(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(DoubleEntry, "InfoClothingDecay", doublePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(DoubleEntry, "InfoClothingDecay", out comp);
                 comp.SetFields(globalTextArray);
             }
-            //MelonLogger.Msg("decay2 " + sw.Elapsed.TotalMilliseconds);
-            //sw.Restart();
-            //Clothing bonuses
+
+                //Clothing bonuses
             if (TryGetClothingBonuses(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(DoubleEntry, "InfoClothingBonuses", doublePool, out comp);
-                //comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(DoubleEntry, "InfoClothingBonuses", out comp);
                 comp.SetFields(globalTextArray);
             }
 
-            //MelonLogger.Msg("bonus " + sw.Elapsed.TotalMilliseconds);
-            //sw.Stop();
+            // Tool section
+                // Degrade on use
+            if (TryGetDegradeOnUse(gi, globalTextArray, out bool isIcePick))
+            {
+                entry = PrepareNewEntry(isIcePick ? DoubleEntry : SingleEntry, "InfoToolDegrade", out comp);
+                comp.SetFields(globalTextArray);
+            }
 
-
-            //MelonLogger.Msg("  ");
-
-
+                // Break chance
+            if (TryGetToolBreakChance(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoTookBreakChance", out comp);
+                comp.SetFields(globalTextArray);
+            }
+                // Arrow stuff
+            if (TryGetArrowInfo(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoArrows", out comp);
+                comp.SetFields(globalTextArray);
+            }
+                // Arrow condition loss
+            if (TryGetArrowHitConditionLoss(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(SingleEntry, "InfoArrowHit", out comp);
+                comp.SetFields(globalTextArray);
+            }
 
 
             if (TryGetIsCat(gi, globalTextArray) && Il2Cpp.Utils.RollChance(0.5f))
             {
-                entry = PrepareNewEntry(SingleEntry, "InfoIsCat", singlePool, out comp);
-                comp = entry.AddComponent<GearInfoUIEntry>();
-
+                entry = PrepareNewEntry(SingleEntry, "InfoIsCat", out comp);
                 comp.SetFields(globalTextArray);
             }
-
 
             // Rearrange entries
             for (int i = 0; i < activeEntries.Count; i++)
             {
                 activeEntries[i].transform.SetSiblingIndex(i);
             }
-
-            //WindowListRoot.GetComponent<Canvas>().enabled = true; // enable after all entries are added
-            //WindowListRoot.GetComponent<VerticalLayoutGroup>().enabled = true;
-            //LayoutRebuilder.MarkLayoutForRebuild(WindowListRoot.GetComponent<RectTransform>());
         }
 
-        private static GameObject PrepareNewEntry(GameObject entryPrefab, string name, Queue<GameObject> pool, out GearInfoUIEntry comp)
+        public static void PrepareWindow()
+        {
+            TMP_Text difTogField = DifficultyToggle.GetComponentInChildren<TMP_Text>();
+            difTogField.text = Localization.Get("GI_AdjustForDifficulty");
+            difTogField.font = AquireFont();
+        }
+
+        private static GameObject PrepareNewEntry(GameObject entryPrefab, string name, out GearInfoUIEntry comp)
         {
             GameObject go;
-             
+            Queue<GameObject> pool = entryPrefab == SingleEntry ? singleEntryPool : doubleEntryPool;
+
             if (pool.Count > 0)
             {
                 go = pool.Dequeue();
@@ -310,8 +264,8 @@ namespace GearInfo
                 }
                 comp.ClearListeners();
                 entry.SetActive(false); // don't destroy!
-                if (comp.fields.Length > 2) doublePool.Enqueue(entry);
-                else singlePool.Enqueue(entry);
+                if (comp.fields.Length > 2) doubleEntryPool.Enqueue(entry);
+                else singleEntryPool.Enqueue(entry);
             }
             activeEntries.Clear();
         }
@@ -340,21 +294,43 @@ namespace GearInfo
             Settings.options.Save();
         }
 
-        public static void ResetWindow()
-        {
-            //foreach (var child in WindowListRoot.GetComponentsInChildren<GearInfoUIEntry>())
-            //{ 
-            //    GameObject.Destroy(child.gameObject);
-            //}
-
-            TMP_Text difTogField = DifficultyToggle.GetComponentInChildren<TMP_Text>();
-            difTogField.text = Localization.Get("GI_AdjustForDifficulty");
-            difTogField.font = AquireFont();
-        }
-
         private static void MainButtonAction() => ToggleWindow(!IsWindowEnabled());
 
-        private static void DifficultySwitch(bool isOn)
+        public static void ToggleWindow(bool enable)
+        {
+            if (GIUIRoot)
+            {
+                AdjustUIPosition(!enable);
+
+                MainWindow.active = enable;
+
+                if (enable)
+                {
+                    PrepareWindow();
+                    SetupRelevantData();
+                }
+            }
+        }
+
+        public static bool IsWindowEnabled()
+        {
+            if (GIUIRoot)
+            {
+                if (MainWindow)
+                {
+                    return MainWindow.active;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            Log(CC.Red, "GIUI not initialized. WindowEnabled");
+            return false;
+        }
+
+        private static void DifficultySwitchAction(bool isOn)
         {
             DifficultySwitchReplaceGraphic(isOn);
 
@@ -382,7 +358,7 @@ namespace GearInfo
             DifficultyToggle.spriteState = ss;
         }
 
-        public static void CalculateButtonPosition()
+        public static void CalculateMainButtonPosition()
         {
             Vector2 pos = Anchor.anchoredPosition;
             UILabel label = InterfaceManager.GetPanel<Panel_Inventory>().m_ItemDescriptionPage.m_ItemNameLabel;
