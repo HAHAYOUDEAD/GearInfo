@@ -1,7 +1,12 @@
 ﻿using Il2Cpp;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections;
+using Il2CppTLD.Gear;
 using Il2CppTLD.SaveState;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
+
+
 
 //using Il2CppSystem.Collections.Generic;
 using System.Text;
@@ -17,16 +22,23 @@ namespace GearInfo
 {
     internal class InfoHarvester
     {
+        private class SurfaceResponse
+        {
+            public float hardness;
+            public Vector2 velocityScalar;
+            public float deflectScalar;
+            public float retainedVelocity;
+        }
+
         public static int baseGameBundleNum;
 
-        private const float surfaceHardnessFlatMult = 86.6666667f;
-        private static readonly Dictionary<string, float> surfaceHardness = new() 
+        private static readonly Dictionary<string, SurfaceResponse> surfaceHardness = new() 
         {
-            { "Animal", 0.35f * surfaceHardnessFlatMult },
-            { "Wood", 0.5f * surfaceHardnessFlatMult },
-            { "Snow", 0.05f * surfaceHardnessFlatMult },
-            { "Metal", 0.75f * surfaceHardnessFlatMult },
-            { "Stone", 0.98f * surfaceHardnessFlatMult },
+            { "Snow", new () { hardness = 0.05f * 50f * 1.5f, velocityScalar = new(0.1f,0.25f), deflectScalar = 0f } },
+            { "Animal", new () { hardness = 0.35f * 50f * 1.5f, velocityScalar = new(0.15f,0.35f), deflectScalar = 0.2f } },
+            { "Wood", new () { hardness = 0.5f * 50f * 1.5f, velocityScalar = new(0.3f,0.55f), deflectScalar = 0.3f } },
+            { "Metal", new () { hardness = 0.75f * 50f * 1.5f, velocityScalar = new(0.6f,0.9f), deflectScalar = 0.8f } },
+            { "Stone", new () { hardness = 0.98f * 50f * 1.5f, velocityScalar = new(0.35f,0.7f), deflectScalar = 0.85f } },
         };
 
         public enum ButtonType
@@ -41,6 +53,18 @@ namespace GearInfo
             None,
             Decay,
             Poisoning,
+        }
+
+        internal static void PreComputeArrowHitDamageMult()
+        {
+            foreach (var entry in surfaceHardness)
+            {
+                float deflectionThreshold = 75f * (1f - entry.Value.deflectScalar);
+                float ratio = Mathf.Clamp01(-deflectionThreshold / (90f - deflectionThreshold));
+                float retainedVelocity = Mathf.Lerp(entry.Value.velocityScalar.x, entry.Value.velocityScalar.y, ratio);
+                
+                entry.Value.retainedVelocity = retainedVelocity;
+            }
         }
 
         internal static bool TryGetItemOrigin(GearItem gear, string[] result)
@@ -133,18 +157,19 @@ namespace GearInfo
         {
             Array.Clear(result, 0, result.Length);
 
-            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
+            if (gear.GetComponent<FirstAidItem>())
+            {
+                return false;
+            }
 
             if (gear.TryGetComponent(out FoodItem fi))
             {
-                float mult = adjustForDifficulty ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
-
-                float decayIn = fi.m_DailyHPDecayInside / gear.GearItemData.MaxHP * 100f * mult;
-                float decayOut = fi.m_DailyHPDecayOutside / gear.GearItemData.MaxHP * 100f * mult;
-                float daysIn = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayInside * mult);
-                float daysOut = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayOutside * mult);
-                float daysLeftIn = gear.CurrentHP / (fi.m_DailyHPDecayInside * mult);
-                float daysLeftOut = gear.CurrentHP / (fi.m_DailyHPDecayOutside * mult);
+                float decayIn = fi.m_DailyHPDecayInside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float decayOut = fi.m_DailyHPDecayOutside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float daysIn = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayInside * Control.globalDifficultyMult);
+                float daysOut = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayOutside * Control.globalDifficultyMult);
+                float daysLeftIn = gear.CurrentHP / (fi.m_DailyHPDecayInside * Control.globalDifficultyMult);
+                float daysLeftOut = gear.CurrentHP / (fi.m_DailyHPDecayOutside * Control.globalDifficultyMult);
 
                 result[0] = Localization.Get(convertToDays ? "GI_ShelfLife" : "GI_DecayRate");
                 result[1] = convertToDays ?
@@ -163,6 +188,11 @@ namespace GearInfo
         internal static bool TryGetFoodPoisonChance(GearItem gear, bool calculateCurrent, string[] result)
         {
             Array.Clear(result, 0, result.Length);
+
+            if (gear.GetComponent<FirstAidItem>())
+            {
+                return false;
+            }
 
             bool adjustForDifficulty = Settings.options.adjustForDifficulty;
 
@@ -278,14 +308,10 @@ namespace GearInfo
         {
             Array.Clear(result, 0, result.Length);
 
-            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
-
             if (gear.TryGetComponent(out ClothingItem ci))
             {
-                float mult = adjustForDifficulty ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
-
-                float decayIn = ci.m_DailyHPDecayWhenWornInside / gear.GearItemData.MaxHP * 100f * mult;
-                float decayOut = ci.m_DailyHPDecayWhenWornOutside / gear.GearItemData.MaxHP * 100f * mult;
+                float decayIn = ci.m_DailyHPDecayWhenWornInside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float decayOut = ci.m_DailyHPDecayWhenWornOutside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
 
                 result[0] = Localization.Get("GI_ClothingWearOutRate");
                 result[1] = $"{decayIn:F2}{Localization.Get("GI_PPD")}";
@@ -332,6 +358,20 @@ namespace GearInfo
 
             isIcePick = false;
 
+            if (gear.GetComponent<KeroseneLampItem>() || gear.GetComponent<FlashlightItem>() || gear.GetComponent<Bed>())
+            {
+                return false;
+            }
+
+            if (gear.TryGetComponent(out CookingPotItem cpi))
+            {
+                float degrade = cpi.m_ConditionPercentDamageFromBurningFood;
+
+                result[0] = Localization.Get("GI_ToolDegrade");
+                result[1] = $"{degrade}{Localization.Get("GI_PPMU")}";
+                return true;
+            }
+
             if (gear.TryGetComponent(out IceFishingHoleClearItem ice))
             { 
                 isIcePick = true;
@@ -344,26 +384,34 @@ namespace GearInfo
             {
                 float degrade = dou.m_DegradeHP;
                 bool isWeapon = false;
+                bool isAffectedBySkill = false; 
 
-                if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Rifle)
+                if (gear.m_GunItem)
                 {
-                    degrade *= GameManager.GetSkillRifle().GetConditionDegradeScale();
                     isWeapon = true;
+
+                    if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Rifle)
+                    {
+                        degrade *= GameManager.GetSkillRifle().GetConditionDegradeScale();
+                        isAffectedBySkill = true;
+                    }
+                    if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Revolver)
+                    {
+                        degrade *= GameManager.GetSkillRevolver().GetConditionDegradeScale();
+                        isAffectedBySkill = true;
+                    }
                 }
-                if (gear.m_GunItem && gear.m_GunItem.m_GunType == GunType.Revolver)
-                {
-                    degrade *= GameManager.GetSkillRevolver().GetConditionDegradeScale();
-                    isWeapon = true;
-                }
+
                 if (gear.m_BowItem)
                 {
                     degrade *= GameManager.GetSkillArchery().GetConditionDegradeScale();
                     isWeapon = true;
+                    isAffectedBySkill = true;
                 }
 
                 result[0] = isWeapon ? Localization.Get("GI_WeaponDegrade") : Localization.Get("GI_ToolDegrade");
-                result[1] = $"{(degrade / gear.GearItemData.MaxHP * 100f):0.#}{Localization.Get("GI_PPU")}";
-                if (isWeapon)
+                result[1] = $"{(degrade / gear.GearItemData.MaxHP * 100f):0.#}{Localization.Get(isWeapon ? "GI_PPS" : "GI_PPU")}";
+                if (isAffectedBySkill)
                 {
                     result[1] += $" ({Localization.Get("GI_AffectedBySkill")})";
                 }
@@ -374,6 +422,55 @@ namespace GearInfo
             return false;
         }
 
+        internal static bool TryGetDecayPerHour(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.GetComponent<FoodItem>() || gear.GetComponent<ClothingItem>())
+            { 
+                return false;
+            }
+
+            bool adjustForDifficulty = Settings.options.adjustForDifficulty;
+
+            //add crafting decay of tools
+
+
+            bool isBedRoll = gear.GetComponent<Bed>();
+
+            if (gear.GearItemData.DailyHPDecay > 0)
+            {
+                float perDayDecay = gear.GearItemData.DailyHPDecay / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float perWeekDecay = perDayDecay * 7f;
+                float perMonthDecay = perDayDecay * 30f;
+
+                float preferredDecay = perDayDecay;
+                string decayText = Localization.Get("GI_PPD");
+
+                if (perWeekDecay < 1f)
+                {
+                    preferredDecay = perMonthDecay;
+                    decayText = Localization.Get("GI_PPM");
+                }
+                else if (perDayDecay < 1f)
+                {
+                    preferredDecay = perWeekDecay;
+                    decayText = Localization.Get("GI_PPW");
+                }
+
+                result[0] = Localization.Get("Deterioration");
+                result[1] = $"{preferredDecay:0.##}{decayText}";
+                if (isBedRoll && gear.TryGetComponent(out DegradeOnUse bedDou))
+                {
+                    float bedDecay = bedDou.m_DegradeHP / gear.GearItemData.MaxHP * 100f * 24f;
+                    result[1] += $" ({bedDecay:0.##}{Localization.Get("GI_PPDS")})";
+                }
+                return true;
+            }
+
+            return false;
+
+        }
         internal static bool TryGetToolBreakChance(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
@@ -391,6 +488,46 @@ namespace GearInfo
                 result[0] = Localization.Get("GI_BreakThreshold");
                 result[1] = $"{threshold}%";
                 result[2] = $"/ {Localization.Get("GI_CurrentBreakChance")}";
+                result[3] = $"{chance:0.##}%";
+                return true;
+            }
+
+            return false;
+        }
+
+
+        internal static bool TryGetWeaponJamChance(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out GunItem gi))
+            {
+                vp_FPSWeapon weapon = GameManager.GetVpFPSCamera().GetWeaponFromItemData(gear.GetFPSItem());
+                vp_FPSShooter? shooter = weapon?.GetComponent<vp_FPSShooter>();
+
+                if (!shooter)
+                {
+                    return false;
+                }
+
+                float threshold = shooter.JamConditionThreshold;
+
+                if (threshold <= 0f)
+                {
+                    return false;
+                }
+
+                float chance = 0f;
+
+                float condition = gear.GetNormalizedCondition() * 100f;
+                if (condition < threshold)
+                {
+                    chance = Mathf.Clamp01((threshold - condition) / threshold);
+                    chance = Mathf.Lerp(shooter.JamMinimumChance, shooter.JamMaximumChance, chance);
+                }
+                result[0] = Localization.Get("GI_JamThreshold");
+                result[1] = $"{threshold}%";
+                result[2] = $"/ {Localization.Get("GI_CurrentJamChance")}";
                 result[3] = $"{chance:0.##}%";
                 return true;
             }
@@ -419,19 +556,19 @@ namespace GearInfo
 
             if (gear.TryGetComponent(out ArrowItem ai))
             {
-                float animal = surfaceHardness["Animal"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
-                float wood = surfaceHardness["Wood"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
-                float snow = surfaceHardness["Snow"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
-                float metal = surfaceHardness["Metal"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
-                float stone = surfaceHardness["Stone"] * ai.m_ImpactVelocityScalar / gear.GearItemData.MaxHP * 100f;
+                Dictionary<string, float> calculated = new();
+                foreach (var entry in surfaceHardness)
+                {
+                    float hpLoss = (1 - ai.m_ImpactVelocityScalar * entry.Value.retainedVelocity) * entry.Value.hardness;
+                    int final = Mathf.CeilToInt(Mathf.Clamp(hpLoss / gear.GearItemData.MaxHP * 100f, 1f, 100f));
+
+                    calculated.Add(entry.Key, final);
+                }
 
                 result[0] = Localization.Get("GI_ArrowConditionLoss");
-                result[1] = $"{(int)animal}% ({Localization.Get("GI_HitAnimal")})/ {(int)wood}% ({Localization.Get("GI_HitWood")})/" +
-                    $"{(int)snow}% ({Localization.Get("GI_HitSnow")})/ {(int)stone}% ({Localization.Get("GI_HitStone")})";
+                result[1] = $"{Localization.Get("GI_HitSnow")} {calculated["Snow"]}%/ {Localization.Get("GI_HitAnimal")} {Mathf.CeilToInt(calculated["Animal"])}%/" +
+                    $"{Localization.Get("GI_HitWood")} {Mathf.CeilToInt(calculated["Wood"])}%/ {Localization.Get("GI_HitStone")} {Mathf.CeilToInt(calculated["Stone"])}%";
                 return true;
-
-                // clamp 0-100 %
-                // snow is a bit more than calculated, stone is a bit less
             }
 
             return false;

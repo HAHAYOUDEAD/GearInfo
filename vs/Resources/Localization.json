@@ -164,6 +164,31 @@
     "English": "% per use",
     "Russian": "% за раз"
   },
+  "GI_PPMU": {
+
+    "English": "% per misuse",
+    "Russian": "% за плохое обращение"
+  },
+  "GI_PPS": {
+
+    "English": "% per shot",
+    "Russian": "% за выстрел"
+  },
+  "GI_PPM": {
+
+    "English": "% per month",
+    "Russian": "% в месяц"
+  },
+  "GI_PPW": {
+
+    "English": "% per week",
+    "Russian": "% в неделю"
+  },
+  "GI_PPDS": {
+
+    "English": "% per day slept",
+    "Russian": "% за день сна"
+  },
   "GI_ToolIceDamage": {
 
     "English": "Making ice hole",
@@ -172,7 +197,7 @@
   "GI_AffectedBySkill": {
 
     "English": "Affected by skill",
-    "Russian": "Зависит от умения"
+    "Russian": "Зависит от навыка"
   },
   "GI_ArrowDurability": {
 
@@ -186,8 +211,8 @@
   },
   "GI_ArrowConditionLoss": {
 
-    "English": "Condition loss on hit",
-    "Russian": "Износ стрелы при попадании"
+    "English": "≈ Damage from",
+    "Russian": "≈ Повреждение от"
   },
   "GI_HitAnimal": {
 
@@ -212,7 +237,22 @@
   "GI_HitMetal": {
 
     "English": "Metal",
-    "Russian": "Метал"
+    "Russian": "Металл"
+  },
+  "GI_JamThreshold": {
+
+    "English": "Jamming threshold",
+    "Russian": "Граница надежности"
+  },
+  "GI_CurrentJamChance": {
+
+    "English": "Current chance",
+    "Russian": "Шанс заклинивания"
+  },
+  "GI_Deterioration": {
+
+    "English": "Deterioration",
+    "Russian": "Естественный износ"
   },
 
 

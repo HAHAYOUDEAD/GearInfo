@@ -29,6 +29,8 @@ namespace GearInfo
         private static string[] globalTextArray = new string[4];
         private static string[] globalAltTextArray = new string[4];
 
+        public static float globalDifficultyMult = 1f;
+
         public static void SetupUI()
         {
             if (GIUIRoot == null)
@@ -141,8 +143,8 @@ namespace GearInfo
                 comp.SetFields(Settings.options.decayAlt ? globalAltTextArray : globalTextArray, AltInfoType.Decay);
 
                 var localComp = comp; // otherwise global vars are captured in button action lambda
-                var localResult = globalTextArray;
-                var localAltResult = globalAltTextArray;
+                var localResult = globalTextArray.ToArray();
+                var localAltResult = globalAltTextArray.ToArray();
 
                 comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
@@ -156,8 +158,8 @@ namespace GearInfo
                 comp.SetFields(Settings.options.foodPoisoningAlt ? globalAltTextArray : globalTextArray, AltInfoType.Poisoning);
 
                 var localComp = comp;
-                var localResult = globalTextArray;
-                var localAltResult = globalAltTextArray;
+                var localResult = globalTextArray.ToArray();
+                var localAltResult = globalAltTextArray.ToArray();
 
                 comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
@@ -176,7 +178,6 @@ namespace GearInfo
                 entry = PrepareNewEntry(DoubleEntry, "InfoClothingDecay", out comp);
                 comp.SetFields(globalTextArray);
             }
-
                 //Clothing bonuses
             if (TryGetClothingBonuses(gi, globalTextArray))
             {
@@ -191,6 +192,14 @@ namespace GearInfo
                 entry = PrepareNewEntry(isIcePick ? DoubleEntry : SingleEntry, "InfoToolDegrade", out comp);
                 comp.SetFields(globalTextArray);
             }
+                // Degrade per time
+            if (TryGetDecayPerHour(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(SingleEntry, "InfoTimedDecay", out comp);
+                comp.SetFields(globalTextArray);
+            }
+
+
 
                 // Break chance
             if (TryGetToolBreakChance(gi, globalTextArray))
@@ -210,9 +219,16 @@ namespace GearInfo
                 entry = PrepareNewEntry(SingleEntry, "InfoArrowHit", out comp);
                 comp.SetFields(globalTextArray);
             }
+                // Weapon jam chance
+            if (TryGetWeaponJamChance(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoWeaponJamChance", out comp);
+                comp.SetFields(globalTextArray);
+            }
 
 
-            if (TryGetIsCat(gi, globalTextArray) && Il2Cpp.Utils.RollChance(0.5f))
+                // meme
+            if (TryGetIsCat(gi, globalTextArray) && Il2Cpp.Utils.RollChance(0.2f))
             {
                 entry = PrepareNewEntry(SingleEntry, "InfoIsCat", out comp);
                 comp.SetFields(globalTextArray);
@@ -336,6 +352,9 @@ namespace GearInfo
 
             Settings.options.adjustForDifficulty = isOn;
             Settings.options.Save();
+
+            globalDifficultyMult = isOn ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
+
             SetupRelevantData();
         }
 

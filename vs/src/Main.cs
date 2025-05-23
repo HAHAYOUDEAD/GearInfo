@@ -39,18 +39,17 @@ namespace GearInfo
             }
 
             Settings.OnLoad();
+
+            PreComputeArrowHitDamageMult();
         }
 
-        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
-        {
-            if (IsMainMenu(sceneName) && string.IsNullOrEmpty(systemLanguage))
-            {
-                systemLanguage = Panel_OptionsMenu.GetLanguageStringFromSystemLang();
-            }
-        }
-
-
-
+        //public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        //{
+        //    if (IsMainMenu(sceneName) && string.IsNullOrEmpty(systemLanguage))
+        //    {
+        //        systemLanguage = Panel_OptionsMenu.GetLanguageStringFromSystemLang();
+        //    }
+        //}
     }
 }
 
