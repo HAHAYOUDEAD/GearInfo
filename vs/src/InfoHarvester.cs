@@ -422,9 +422,11 @@ namespace GearInfo
             return false;
         }
 
-        internal static bool TryGetDecayPerHour(GearItem gear, string[] result)
+        internal static bool TryGetDecayPerHour(GearItem gear, string[] result, out bool isCraftTool)
         {
             Array.Clear(result, 0, result.Length);
+
+            isCraftTool = false;
 
             if (gear.GetComponent<FoodItem>() || gear.GetComponent<ClothingItem>())
             { 
@@ -435,6 +437,14 @@ namespace GearInfo
 
             //add crafting decay of tools
 
+            if (gear.TryGetComponent(out ToolsItem ti))
+            {
+                isCraftTool = true;
+
+                result[2] = $"/ {Localization.Get("GI_Crafting")}";
+                result[3] = $"{ti.m_DegradePerHourCrafting / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPH")}";
+
+            }
 
             bool isBedRoll = gear.GetComponent<Bed>();
 

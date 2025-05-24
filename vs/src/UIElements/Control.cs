@@ -193,9 +193,9 @@ namespace GearInfo
                 comp.SetFields(globalTextArray);
             }
                 // Degrade per time
-            if (TryGetDecayPerHour(gi, globalTextArray))
+            if (TryGetDecayPerHour(gi, globalTextArray, out bool isCraftTool))
             {
-                entry = PrepareNewEntry(SingleEntry, "InfoTimedDecay", out comp);
+                entry = PrepareNewEntry(isCraftTool ? DoubleEntry : SingleEntry, "InfoTimedDecay", out comp);
                 comp.SetFields(globalTextArray);
             }
 
