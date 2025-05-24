@@ -53,6 +53,8 @@ namespace GearInfo
             None,
             Decay,
             Poisoning,
+            ToolUse,
+            Firestarting,
         }
 
         internal static void PreComputeArrowHitDamageMult()
@@ -352,11 +354,12 @@ namespace GearInfo
             return false;
         }
 
-        internal static bool TryGetDegradeOnUse(GearItem gear, string[] result, out bool isIcePick)
+        internal static bool TryGetDegradeOnUse(GearItem gear, string[] result, bool altInfo, out bool isIcePick, out bool isCraftTool)
         {
             Array.Clear(result, 0, result.Length);
 
             isIcePick = false;
+            isCraftTool = false;
 
             if (gear.GetComponent<KeroseneLampItem>() || gear.GetComponent<FlashlightItem>() || gear.GetComponent<Bed>())
             {
@@ -372,13 +375,28 @@ namespace GearInfo
                 return true;
             }
 
+            if (gear.TryGetComponent(out ToolsItem ti))
+            {
+                isCraftTool = true;
+
+                if (!altInfo)
+                {
+                    result[2] = $"/ {Localization.Get("GI_Crafting")}";
+                    result[3] = $"{ti.m_DegradePerHourCrafting / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPH")}";
+                }
+            }
+
             if (gear.TryGetComponent(out IceFishingHoleClearItem ice))
-            { 
+            {
                 isIcePick = true;
 
-                result[2] = $"/ {Localization.Get("GI_ToolIceDamage")}";
-                result[3] = $"{ice.m_HPDecreaseToClear / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPU")}";
+                if (altInfo || !isCraftTool)
+                {
+                    result[2] = $"/ {Localization.Get("GI_ToolIceDamage")}";
+                    result[3] = $"{ice.m_HPDecreaseToClear / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPU")}";
+                }
             }
+
 
             if (gear.TryGetComponent(out DegradeOnUse dou))
             {
@@ -422,11 +440,9 @@ namespace GearInfo
             return false;
         }
 
-        internal static bool TryGetDecayPerHour(GearItem gear, string[] result, out bool isCraftTool)
+        internal static bool TryGetDecayPerHour(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
-
-            isCraftTool = false;
 
             if (gear.GetComponent<FoodItem>() || gear.GetComponent<ClothingItem>())
             { 
@@ -435,16 +451,6 @@ namespace GearInfo
 
             bool adjustForDifficulty = Settings.options.adjustForDifficulty;
 
-            //add crafting decay of tools
-
-            if (gear.TryGetComponent(out ToolsItem ti))
-            {
-                isCraftTool = true;
-
-                result[2] = $"/ {Localization.Get("GI_Crafting")}";
-                result[3] = $"{ti.m_DegradePerHourCrafting / gear.GearItemData.MaxHP * 100f}{Localization.Get("GI_PPH")}";
-
-            }
 
             bool isBedRoll = gear.GetComponent<Bed>();
 
@@ -468,7 +474,7 @@ namespace GearInfo
                     decayText = Localization.Get("GI_PPW");
                 }
 
-                result[0] = Localization.Get("Deterioration");
+                result[0] = Localization.Get("GI_Deterioration");
                 result[1] = $"{preferredDecay:0.##}{decayText}";
                 if (isBedRoll && gear.TryGetComponent(out DegradeOnUse bedDou))
                 {
@@ -560,6 +566,7 @@ namespace GearInfo
 
             return false;
         }
+
         internal static bool TryGetArrowHitConditionLoss(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
@@ -578,6 +585,53 @@ namespace GearInfo
                 result[0] = Localization.Get("GI_ArrowConditionLoss");
                 result[1] = $"{Localization.Get("GI_HitSnow")} {calculated["Snow"]}%/ {Localization.Get("GI_HitAnimal")} {Mathf.CeilToInt(calculated["Animal"])}%/" +
                     $"{Localization.Get("GI_HitWood")} {Mathf.CeilToInt(calculated["Wood"])}%/ {Localization.Get("GI_HitStone")} {Mathf.CeilToInt(calculated["Stone"])}%";
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetBowDamageMult(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out BowItem bi))
+            {
+                result[0] = Localization.Get("GI_BowDamageMult");
+                result[1] = $"x{bi.m_BowDamageMultiplier}:F2";
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetFireStarterTime(GearItem gear, bool fromSkill, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out FireStarterItem fsi))
+            {
+                float time = GameManager.GetFireManagerComponent().m_StartFireTimeSeconds + fsi.m_SecondsToIgniteTinder;
+                //float timeWet = GameManager.GetFireManagerComponent().m_StartFireTimeSecondsWet + fsi.m_SecondsToIgniteTinder;
+                float timeAccelerant = Mathf.Clamp(time - 30f, fsi.m_SecondsToIgniteTinder + 0.5f, float.MaxValue);
+                float timeSkill = time * GameManager.GetSkillFireStarting().GetStartTimeScale();
+                float timeAccelerantSkill = Mathf.Clamp(timeSkill - 30f, fsi.m_SecondsToIgniteTinder + 0.5f, float.MaxValue);
+
+
+
+                if (!fromSkill)
+                {
+                    result[0] = Localization.Get("GI_StartFireTime");
+                    result[1] = $"{time} {Localization.Get("GI_Seconds")}";
+                }
+                else
+                {
+                    result[0] = Localization.Get("GI_StartFireTime");
+                    result[1] = $"{timeSkill} {Localization.Get("GI_SecondsFromSkill")}";
+                }
+                result[2] = $"/ {Localization.Get("GI_StartFireTimeAccelerated")}";
+                result[3] = $"{timeAccelerant} {Localization.Get("GI_Seconds")}";
+
                 return true;
             }
 

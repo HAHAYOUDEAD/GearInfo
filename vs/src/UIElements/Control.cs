@@ -187,15 +187,33 @@ namespace GearInfo
 
             // Tool section
                 // Degrade on use
-            if (TryGetDegradeOnUse(gi, globalTextArray, out bool isIcePick))
+            if (TryGetDegradeOnUse(gi, globalTextArray, false, out bool isIcePick, out bool isCraftTool))
             {
-                entry = PrepareNewEntry(isIcePick ? DoubleEntry : SingleEntry, "InfoToolDegrade", out comp);
-                comp.SetFields(globalTextArray);
+                entry = PrepareNewEntry(isIcePick || isCraftTool ? DoubleEntry : SingleEntry, "InfoToolDegrade", out comp);
+
+
+                if (isIcePick && isCraftTool) // add switch if too many values
+                {
+                    TryGetDegradeOnUse(gi, globalAltTextArray, true, out bool _, out bool _);
+                    comp.SetFields(Settings.options.toolUseAlt ? globalAltTextArray : globalTextArray, AltInfoType.ToolUse);
+
+                    var localComp = comp;
+                    var localResult = globalTextArray.ToArray();
+                    var localAltResult = globalAltTextArray.ToArray();
+
+                    comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
+                }
+                else
+                {
+                    comp.SetFields(globalTextArray);
+                }
+
+                // switch
             }
-                // Degrade per time
-            if (TryGetDecayPerHour(gi, globalTextArray, out bool isCraftTool))
+            // Degrade per time
+            if (TryGetDecayPerHour(gi, globalTextArray))
             {
-                entry = PrepareNewEntry(isCraftTool ? DoubleEntry : SingleEntry, "InfoTimedDecay", out comp);
+                entry = PrepareNewEntry(SingleEntry, "InfoTimedDecay", out comp);
                 comp.SetFields(globalTextArray);
             }
 
@@ -225,9 +243,31 @@ namespace GearInfo
                 entry = PrepareNewEntry(DoubleEntry, "InfoWeaponJamChance", out comp);
                 comp.SetFields(globalTextArray);
             }
+                // Bow damage
+            if (TryGetBowDamageMult(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(SingleEntry, "InfoBowDamage", out comp);
+                comp.SetFields(globalTextArray);
+            }
+
+            // Firestarting
+                // Time to start fire
+            if (TryGetFireStarterTime(gi, false, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoTimeStartFire", out comp);
+
+                TryGetFireStarterTime(gi, true, globalAltTextArray);
+                comp.SetFields(Settings.options.fireStartAlt ? globalAltTextArray : globalTextArray, AltInfoType.Firestarting);
+
+                var localComp = comp;
+                var localResult = globalTextArray.ToArray();
+                var localAltResult = globalAltTextArray.ToArray();
+
+                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
+            }
 
 
-                // meme
+            // meme
             if (TryGetIsCat(gi, globalTextArray) && Il2Cpp.Utils.RollChance(0.2f))
             {
                 entry = PrepareNewEntry(SingleEntry, "InfoIsCat", out comp);
@@ -305,6 +345,17 @@ namespace GearInfo
                     else comp.SetFields(altFields);
                     Settings.options.decayAlt = !Settings.options.decayAlt;
                     break;
+                case AltInfoType.ToolUse:
+                    if (Settings.options.toolUseAlt) comp.SetFields(fields);
+                    else comp.SetFields(altFields);
+                    Settings.options.toolUseAlt = !Settings.options.toolUseAlt;
+                    break;
+                case AltInfoType.Firestarting:
+                    if (Settings.options.fireStartAlt) comp.SetFields(fields);
+                    else comp.SetFields(altFields);
+                    Settings.options.fireStartAlt = !Settings.options.fireStartAlt;
+                    break;
+
             }
 
             Settings.options.Save();

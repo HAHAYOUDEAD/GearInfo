@@ -177,103 +177,127 @@
   "GI_PPH": {
 
     "English": "% per hour",
-    "Russian": "% в час",
-    "GI_PPM": {
+    "Russian": "% в час"
+  },
+  "GI_PPM": {
 
-      "English": "% per month",
-      "Russian": "% в месяц"
-    },
-    "GI_PPW": {
+    "English": "% per month",
+    "Russian": "% в месяц"
+  },
+  "GI_PPW": {
 
-      "English": "% per week",
-      "Russian": "% в неделю"
-    },
-    "GI_PPDS": {
+    "English": "% per week",
+    "Russian": "% в неделю"
+  },
+  "GI_PPDS": {
 
-      "English": "% per day slept",
-      "Russian": "% за день сна"
-    },
-    "GI_ToolIceDamage": {
+    "English": "% per day slept",
+    "Russian": "% за день сна"
+  },
+  "GI_ToolIceDamage": {
 
-      "English": "Making ice hole",
-      "Russian": "Делая прорубь"
-    },
-    "GI_AffectedBySkill": {
+    "English": "Making ice hole",
+    "Russian": "Делая прорубь"
+  },
+  "GI_AffectedBySkill": {
 
-      "English": "Affected by skill",
-      "Russian": "Зависит от навыка"
-    },
-    "GI_ArrowDurability": {
+    "English": "Affected by skill",
+    "Russian": "Зависит от навыка"
+  },
+  "GI_ArrowDurability": {
 
-      "English": "Arrow durability",
-      "Russian": "Прочность стрелы"
-    },
-    "GI_ArrowDamage": {
+    "English": "Arrow durability",
+    "Russian": "Прочность стрелы"
+  },
+  "GI_ArrowDamage": {
 
-      "English": "Damage",
-      "Russian": "Урон"
-    },
-    "GI_ArrowConditionLoss": {
+    "English": "Damage",
+    "Russian": "Урон"
+  },
+  "GI_ArrowConditionLoss": {
 
-      "English": "≈ Damage from",
-      "Russian": "≈ Повреждение от"
-    },
-    "GI_HitAnimal": {
+    "English": "≈ Damage from",
+    "Russian": "≈ Повреждение от"
+  },
+  "GI_HitAnimal": {
 
-      "English": "Flesh",
-      "Russian": "Плоть"
-    },
-    "GI_HitWood": {
+    "English": "Flesh",
+    "Russian": "Плоть"
+  },
+  "GI_HitWood": {
 
-      "English": "Wood",
-      "Russian": "Дерево"
-    },
-    "GI_HitSnow": {
+    "English": "Wood",
+    "Russian": "Дерево"
+  },
+  "GI_HitSnow": {
 
-      "English": "Snow",
-      "Russian": "Снег"
-    },
-    "GI_HitStone": {
+    "English": "Snow",
+    "Russian": "Снег"
+  },
+  "GI_HitStone": {
 
-      "English": "Stone",
-      "Russian": "Камень"
-    },
-    "GI_HitMetal": {
+    "English": "Stone",
+    "Russian": "Камень"
+  },
+  "GI_HitMetal": {
 
-      "English": "Metal",
-      "Russian": "Металл"
-    },
-    "GI_JamThreshold": {
+    "English": "Metal",
+    "Russian": "Металл"
+  },
+  "GI_JamThreshold": {
 
-      "English": "Jamming threshold",
-      "Russian": "Граница надежности"
-    },
-    "GI_CurrentJamChance": {
+    "English": "Jamming threshold",
+    "Russian": "Граница надежности"
+  },
+  "GI_CurrentJamChance": {
 
-      "English": "Current chance",
-      "Russian": "Шанс заклинивания"
-    },
-    "GI_Deterioration": {
+    "English": "Current chance",
+    "Russian": "Шанс заклинивания"
+  },
+  "GI_Deterioration": {
 
-      "English": "Deterioration",
-      "Russian": "Естественный износ"
-    },
-    "GI_Crafting": {
+    "English": "Deterioration",
+    "Russian": "Естественный износ"
+  },
+  "GI_Crafting": {
 
-      "English": "Crafting",
-      "Russian": "Ремесло"
-    },
+    "English": "Crafting",
+    "Russian": "Ремесло"
+  },
+  "GI_BowDamageMult": {
+
+    "English": "Arrow damage multiplier",
+    "Russian": "Множитель урона от стрел"
+  },
+  "GI_StartFireTime": {
+
+    "English": "Firestarting",
+    "Russian": "Разведение огня"
+  },
+  "GI_StartFireTimeAccelerated": {
+
+    "English": "Accelerated",
+    "Russian": "С розжигом"
+  },
+  "GI_Seconds": {
+
+    "English": "sec",
+    "Russian": "сек"
+  },
+  "GI_SecondsFromSkill": {
+
+    "English": "s (Skill)",
+    "Russian": "с (Навык)"
+  },
 
 
 
 
-    "GI_AdjustForDifficulty": {
+  "GI_AdjustForDifficulty": {
 
-      "English": "Adjust for current difficulty",
-      "Russian": "С учётом текущего уровня сложности"
-    },
-
-
+    "English": "Adjust for current difficulty",
+    "Russian": "С учётом текущего уровня сложности"
+  },
 
 
 
@@ -281,29 +305,31 @@
 
 
 
-    "GI_Message_Copied": {
-
-      "English": "Info copied to clipboard",
-      "Russian": "Скопировано в буфер обмена"
-    },
 
 
+  "GI_Message_Copied": {
+
+    "English": "Info copied to clipboard",
+    "Russian": "Скопировано в буфер обмена"
+  },
 
 
 
-    "GI_IsCat": {
 
-      "English": "Is this a cat?",
-      "Russian": "Это кот?"
-    },
-    "GI_CouldBeACat": {
 
-      "English": "You could say so",
-      "Russian": "В некоторой степени"
-    },
-    "GI_AbsolutelyNotACat": {
+  "GI_IsCat": {
 
-      "English": "In no way is this a cat",
-      "Russian": "Ни в коем случае"
-    }
+    "English": "Is this a cat?",
+    "Russian": "Это кот?"
+  },
+  "GI_CouldBeACat": {
+
+    "English": "You could say so",
+    "Russian": "В некоторой степени"
+  },
+  "GI_AbsolutelyNotACat": {
+
+    "English": "In no way is this a cat",
+    "Russian": "Ни в коем случае"
   }
+}

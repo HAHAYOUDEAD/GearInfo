@@ -21,9 +21,9 @@ namespace GearInfo
         [Name("heck")]
         public bool decayAlt = true;
         [Name("are")]
-        public bool temp1 = true;
+        public bool toolUseAlt = false;
         [Name("those")]
-        public bool temp2 = true;
+        public bool fireStartAlt = false;
         [Name("required")]
         public bool temp3 = true;
 
