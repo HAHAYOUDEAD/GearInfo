@@ -55,6 +55,7 @@ namespace GearInfo
             Poisoning,
             ToolUse,
             Firestarting,
+            Fuel
         }
 
         internal static void PreComputeArrowHitDamageMult()
@@ -598,7 +599,7 @@ namespace GearInfo
             if (gear.TryGetComponent(out BowItem bi))
             {
                 result[0] = Localization.Get("GI_BowDamageMult");
-                result[1] = $"x{bi.m_BowDamageMultiplier}:F2";
+                result[1] = $"x{bi.m_BowDamageMultiplier:F2}";
                 return true;
             }
 
@@ -617,8 +618,6 @@ namespace GearInfo
                 float timeSkill = time * GameManager.GetSkillFireStarting().GetStartTimeScale();
                 float timeAccelerantSkill = Mathf.Clamp(timeSkill - 30f, fsi.m_SecondsToIgniteTinder + 0.5f, float.MaxValue);
 
-
-
                 if (!fromSkill)
                 {
                     result[0] = Localization.Get("GI_StartFireTime");
@@ -627,10 +626,55 @@ namespace GearInfo
                 else
                 {
                     result[0] = Localization.Get("GI_StartFireTime");
-                    result[1] = $"{timeSkill} {Localization.Get("GI_SecondsFromSkill")}";
+                    result[1] = $"{timeSkill} {Localization.Get("GI_SecondsShort")} ({Localization.Get("GI_Skill")})";
                 }
                 result[2] = $"/ {Localization.Get("GI_StartFireTimeAccelerated")}";
                 result[3] = $"{timeAccelerant} {Localization.Get("GI_Seconds")}";
+
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetFuelBurnInfo(GearItem gear, bool fromSkill, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            if (gear.TryGetComponent(out FuelSourceItem fsi))
+            {
+                float time = fsi.m_BurnDurationHours;
+                float timeSkill = time * GameManager.GetSkillFireStarting().GetDurationScale();
+
+                bool inMinutes = time < 1f;
+
+                if (inMinutes)
+                {
+                    time *= 60f;
+                    timeSkill *= 60f;
+                }
+
+                float heat = fsi.m_HeatIncrease;
+
+                bool freedom = InterfaceManager.GetPanel<Panel_OptionsMenu>().State.m_Units == MeasurementUnits.Imperial;
+
+                string heatText = Utils.GetTemperatureString(heat, true, false, false);
+                string heatTextAlt = (freedom ? $"{heat:F1}{Localization.Get("GAMEPLAY_DegreesCUnits")}" :
+                                                $"{(heat * 1.8f):F1}{Localization.Get("GAMEPLAY_DegreesFUnits")}");
+
+                if (!fromSkill)
+                {
+                    result[0] = Localization.Get("GI_FuelBurnTime");
+                    result[1] = $"{time} {Localization.Get(inMinutes ? "GI_Minutes" : "GI_HoursShort")}";
+                }
+                else
+                {
+                    result[0] = Localization.Get("GI_FuelBurnTime");
+                    result[1] = $"{timeSkill} {Localization.Get(inMinutes ? "GI_MinutesShort" : "GI_HoursShort")} ({Localization.Get("GI_Skill")})";
+                }
+                result[2] = $"/ {Localization.Get("GI_FuelHeatOutput")}";
+                result[3] = $"{heatText} ({heatTextAlt})";
+
 
                 return true;
             }

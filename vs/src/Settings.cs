@@ -25,7 +25,7 @@ namespace GearInfo
         [Name("those")]
         public bool fireStartAlt = false;
         [Name("required")]
-        public bool temp3 = true;
+        public bool fuelInfoAlt = false;
 
 
         protected override void OnConfirm()

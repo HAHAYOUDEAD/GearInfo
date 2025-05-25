@@ -284,10 +284,40 @@
     "English": "sec",
     "Russian": "сек"
   },
-  "GI_SecondsFromSkill": {
+  "GI_Skill": {
 
-    "English": "s (Skill)",
-    "Russian": "с (Навык)"
+    "English": "Skill",
+    "Russian": "Навык"
+  },
+  "GI_SecondsShort": {
+
+    "English": "s",
+    "Russian": "с"
+  },
+  "GI_HoursShort": {
+
+    "English": "h",
+    "Russian": "ч"
+  },
+  "GI_Minutes": {
+
+    "English": "min",
+    "Russian": "мин"
+  },
+  "GI_MinutesShort": {
+
+    "English": "m",
+    "Russian": "м"
+  },
+  "GI_FuelBurnTime": {
+
+    "English": "Burn time",
+    "Russian": "Время горения"
+  },
+  "GI_FuelHeatOutput": {
+
+    "English": "Heat output",
+    "Russian": "Отдача тепла"
   },
 
 

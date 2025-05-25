@@ -3,28 +3,37 @@ using Il2CppInterop.Runtime;
 using Il2CppTMPro;
 using Il2CppVLB;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace GearInfo
 {
     internal class Control
     {
         public static GameObject GIUIRoot;
-        public static RectTransform Anchor;
-        public static Button MainButton;
-        public static GameObject MainWindow;
-        public static Toggle DifficultyToggle;
-        public static GameObject SingleEntry;
-        public static GameObject DoubleEntry;
-        public static Transform WindowListRoot;
+        private static RectTransform MainButtonAnchor;
+        private static Button MainButton;
+        private static GameObject MainWindow;
+        private static Toggle DifficultyToggle;
+        private static GameObject SingleEntry;
+        private static GameObject DoubleEntry;
+        private static GameObject EmptyEntry;
+        private static Transform WindowListRoot;
 
         private static Queue<GameObject> singleEntryPool = new();
         private static Queue<GameObject> doubleEntryPool = new();
+        private static Queue<GameObject> emptyEntryPool = new();
         private static List<GameObject> activeEntries = new();
+
+        //private static UITexture gearInventoryIcon;
+        //private static UITexture clothingInventoryIcon;
+        //private static Color gearInventoryColor = new Color(1f, 1f, 1f, 0.45f);
+
+        private const int maxEntries = 9;
 
         private static bool buttonOnLeftSide = false;
         private static float buttonOffset = 25f;
 
-        public static Color separatorColor = new Color (0.98f, 0.98f, 0.98f, 0.2f);
+        //public static Color separatorColor = new Color (0.98f, 0.98f, 0.98f, 0.2f);
 
         private static string[] globalTextArray = new string[4];
         private static string[] globalAltTextArray = new string[4];
@@ -37,15 +46,25 @@ namespace GearInfo
             {
                 GIUIRoot = GameObject.Instantiate(Main.UIBundle.LoadAsset<GameObject>("GIUICanvas"));
                 GameObject.DontDestroyOnLoad(GIUIRoot);
+                GIUIRoot.name = "GIUICanvas";
+                GIUIRoot.active = false;
                 MainButton = GIUIRoot.transform.Find("MainButton").GetComponent<Button>();
-                Anchor = GIUIRoot.transform.Find("MainButtonAnchor").GetComponent<RectTransform>();
+                MainButtonAnchor = GIUIRoot.transform.Find("MainButtonAnchor").GetComponent<RectTransform>();
                 MainWindow = GIUIRoot.transform.Find("Window").gameObject;
                 DifficultyToggle = MainWindow.transform.Find("DifficultyToggle").GetComponent<Toggle>();
                 WindowListRoot = MainWindow.transform.Find("VLayout");
                 SingleEntry = GameObject.Instantiate(Main.UIBundle.LoadAsset<GameObject>("SingleEntry"));
                 GameObject.DontDestroyOnLoad(SingleEntry);
+                SingleEntry.name = "GIUIEntrySingle";
+                SingleEntry.active = false;
                 DoubleEntry = GameObject.Instantiate(Main.UIBundle.LoadAsset<GameObject>("DoubleEntry"));
                 GameObject.DontDestroyOnLoad(DoubleEntry);
+                DoubleEntry.name = "GIUIEntryDouble";
+                DoubleEntry.active = false;
+                EmptyEntry = GameObject.Instantiate(Main.UIBundle.LoadAsset<GameObject>("EmptyEntry"));
+                GameObject.DontDestroyOnLoad(EmptyEntry);
+                EmptyEntry.name = "GIUIEntryEmpty";
+                EmptyEntry.active = false;
                 MainButton.onClick.AddListener(DelegateSupport.ConvertDelegate<UnityAction>(new Action(MainButtonAction)));
                 DifficultyToggle.isOn = Settings.options.adjustForDifficulty;
                 DifficultySwitchReplaceGraphic(DifficultyToggle.isOn);
@@ -57,8 +76,10 @@ namespace GearInfo
         public static void AdjustUIPosition(bool reset, bool instant = false)
         {
             Panel_Inventory pi = InterfaceManager.GetPanel<Panel_Inventory>();
+            //if (gearInventoryIcon == null) gearInventoryIcon = pi.m_GearItemCoverflow.m_Texture;
+            //if (clothingInventoryIcon == null) clothingInventoryIcon = pi.m_GearItemCoverflow.m_TextureWithDamage;
             Transform rs = pi.transform.Find("Right Side");
-            MelonCoroutines.Start(NudgeVanillaUI(rs.Find("GearItem"), 30f, reset, instant));
+            MelonCoroutines.Start(NudgeVanillaUI(rs.Find("GearItem"), 60f, reset, instant));
             rs.Find("GearStatsBlock(Clone)/ItemDescriptionLabel").gameObject.active = reset;
         }
 
@@ -66,6 +87,8 @@ namespace GearInfo
         {
             if (reset)
             {
+                //gearInventoryIcon.color = Color.white;
+                //clothingInventoryIcon.color = Color.white;
                 element.localPosition = Vector3.zero;
                 yield break;
             }
@@ -81,11 +104,15 @@ namespace GearInfo
                 {
                     t += Time.deltaTime / 0.1f;
                     element.localPosition = Vector3.Lerp(startpos, endpos, Mathf.Pow(t - 1, 3f) + 1);
+                    //gearInventoryIcon.color = Color.Lerp(Color.white, gearInventoryColor, t);
+                    //clothingInventoryIcon.color = Color.Lerp(Color.white, gearInventoryColor, t);
                     yield return new WaitForEndOfFrame();
                 }
             }
             else
             {
+                //gearInventoryIcon.color = gearInventoryColor;
+                //clothingInventoryIcon.color = gearInventoryColor;
                 element.localPosition = endpos;
             }
             yield break;
@@ -264,6 +291,20 @@ namespace GearInfo
                 var localAltResult = globalAltTextArray.ToArray();
 
                 comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
+            } 
+                // Time to start fire
+            if (TryGetFuelBurnInfo(gi, false, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoFuelBurn", out comp);
+
+                TryGetFuelBurnInfo(gi, true, globalAltTextArray);
+                comp.SetFields(Settings.options.fuelInfoAlt ? globalAltTextArray : globalTextArray, AltInfoType.Fuel);
+
+                var localComp = comp;
+                var localResult = globalTextArray.ToArray();
+                var localAltResult = globalAltTextArray.ToArray();
+
+                comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
 
 
@@ -278,6 +319,11 @@ namespace GearInfo
             for (int i = 0; i < activeEntries.Count; i++)
             {
                 activeEntries[i].transform.SetSiblingIndex(i);
+            }
+
+            if (activeEntries.Count < maxEntries)
+            {
+                FillWithEmpty(maxEntries - activeEntries.Count);
             }
         }
 
@@ -303,9 +349,31 @@ namespace GearInfo
                 return go;
             }
             go = GameObject.Instantiate(entryPrefab, WindowListRoot);
+            go.name = name;
+            go.SetActive(true);
             comp = go.AddComponent<GearInfoUIEntry>();
             activeEntries.Add(go);
             return go;
+        }
+
+        public static void FillWithEmpty(int num)
+        {
+            GameObject go;
+
+            for (int i = 0; i < num; i++)
+            {
+                if (emptyEntryPool.Count >= num)
+                {
+                    go = emptyEntryPool.Dequeue();
+                }
+                else
+                {
+                    go = GameObject.Instantiate(EmptyEntry, WindowListRoot);
+                }
+                go.name = "Filler";
+                go.SetActive(true);
+                activeEntries.Add(go);
+            }
         }
 
         private static void ClearEntries()
@@ -315,11 +383,12 @@ namespace GearInfo
                 var comp = entry.GetComponent<GearInfoUIEntry>();
                 if (!comp)
                 {
-                    MelonLogger.Msg(CC.Red, $"Entry {entry.name} has no component");
+                    entry.SetActive(false);
+                    emptyEntryPool.Enqueue(entry);
                     continue;
                 }
                 comp.ClearListeners();
-                entry.SetActive(false); // don't destroy!
+                entry.SetActive(false); 
                 if (comp.fields.Length > 2) doubleEntryPool.Enqueue(entry);
                 else singleEntryPool.Enqueue(entry);
             }
@@ -354,6 +423,11 @@ namespace GearInfo
                     if (Settings.options.fireStartAlt) comp.SetFields(fields);
                     else comp.SetFields(altFields);
                     Settings.options.fireStartAlt = !Settings.options.fireStartAlt;
+                    break;
+                case AltInfoType.Fuel:
+                    if (Settings.options.fuelInfoAlt) comp.SetFields(fields);
+                    else comp.SetFields(altFields);
+                    Settings.options.fuelInfoAlt = !Settings.options.fuelInfoAlt;
                     break;
 
             }
@@ -430,7 +504,7 @@ namespace GearInfo
 
         public static void CalculateMainButtonPosition()
         {
-            Vector2 pos = Anchor.anchoredPosition;
+            Vector2 pos = MainButtonAnchor.anchoredPosition;
             UILabel label = InterfaceManager.GetPanel<Panel_Inventory>().m_ItemDescriptionPage.m_ItemNameLabel;
             float conversion = label.root.m_AspectRatioForScaling / 2f; // ratio the label size and divide by 2 because button origin is in the middle of label
             float distance = buttonOffset;

@@ -25,7 +25,7 @@ namespace GearInfo
             buttonSwitch = this.transform.Find("ButtonSwitch").GetComponent<Button>();
             fields = GetComponentsInChildren<TMP_Text>(true);
 
-            foreach (Image i in this.transform.Find("Separator").GetComponentsInChildren<Image>()) i.color = Control.separatorColor;
+            //foreach (Image i in this.transform.Find("Separator").GetComponentsInChildren<Image>()) i.color = Control.separatorColor;
         }
 
         void OnEnable()
