@@ -38,7 +38,7 @@ namespace GearInfo
         private static string[] globalTextArray = new string[4];
         private static string[] globalAltTextArray = new string[4];
 
-        public static float globalDifficultyMult = 1f;
+        public static float globalDecayMult = 1f;
 
         public static void SetupUI()
         {
@@ -306,6 +306,12 @@ namespace GearInfo
 
                 comp.SetButton(ButtonType.Switch, () => SwitchButtonAction(localComp, localResult, localAltResult));
             }
+                // Light time
+            if (TryGetLightSourceBurningTime(gi, globalTextArray))
+            {
+                entry = PrepareNewEntry(DoubleEntry, "InfoLightTime", out comp);
+                comp.SetFields(globalTextArray);
+            }
 
 
             // meme
@@ -478,7 +484,7 @@ namespace GearInfo
             Settings.options.adjustForDifficulty = isOn;
             Settings.options.Save();
 
-            globalDifficultyMult = isOn ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
+            globalDecayMult = isOn ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
 
             SetupRelevantData();
         }

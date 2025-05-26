@@ -1,5 +1,6 @@
 ﻿using Il2Cpp;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppRewired.Utils.Classes.Utility;
 using Il2CppSystem.Collections;
 using Il2CppTLD.Gear;
 using Il2CppTLD.SaveState;
@@ -167,12 +168,12 @@ namespace GearInfo
 
             if (gear.TryGetComponent(out FoodItem fi))
             {
-                float decayIn = fi.m_DailyHPDecayInside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
-                float decayOut = fi.m_DailyHPDecayOutside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
-                float daysIn = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayInside * Control.globalDifficultyMult);
-                float daysOut = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayOutside * Control.globalDifficultyMult);
-                float daysLeftIn = gear.CurrentHP / (fi.m_DailyHPDecayInside * Control.globalDifficultyMult);
-                float daysLeftOut = gear.CurrentHP / (fi.m_DailyHPDecayOutside * Control.globalDifficultyMult);
+                float decayIn = fi.m_DailyHPDecayInside / gear.GearItemData.MaxHP * 100f * Control.globalDecayMult;
+                float decayOut = fi.m_DailyHPDecayOutside / gear.GearItemData.MaxHP * 100f * Control.globalDecayMult;
+                float daysIn = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayInside * Control.globalDecayMult);
+                float daysOut = gear.GearItemData.MaxHP / (fi.m_DailyHPDecayOutside * Control.globalDecayMult);
+                float daysLeftIn = gear.CurrentHP / (fi.m_DailyHPDecayInside * Control.globalDecayMult);
+                float daysLeftOut = gear.CurrentHP / (fi.m_DailyHPDecayOutside * Control.globalDecayMult);
 
                 result[0] = Localization.Get(convertToDays ? "GI_ShelfLife" : "GI_DecayRate");
                 result[1] = convertToDays ?
@@ -313,8 +314,8 @@ namespace GearInfo
 
             if (gear.TryGetComponent(out ClothingItem ci))
             {
-                float decayIn = ci.m_DailyHPDecayWhenWornInside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
-                float decayOut = ci.m_DailyHPDecayWhenWornOutside / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float decayIn = ci.m_DailyHPDecayWhenWornInside / gear.GearItemData.MaxHP * 100f * Control.globalDecayMult;
+                float decayOut = ci.m_DailyHPDecayWhenWornOutside / gear.GearItemData.MaxHP * 100f * Control.globalDecayMult;
 
                 result[0] = Localization.Get("GI_ClothingWearOutRate");
                 result[1] = $"{decayIn:F2}{Localization.Get("GI_PPD")}";
@@ -457,7 +458,7 @@ namespace GearInfo
 
             if (gear.GearItemData.DailyHPDecay > 0)
             {
-                float perDayDecay = gear.GearItemData.DailyHPDecay / gear.GearItemData.MaxHP * 100f * Control.globalDifficultyMult;
+                float perDayDecay = gear.GearItemData.DailyHPDecay / gear.GearItemData.MaxHP * 100f * Control.globalDecayMult;
                 float perWeekDecay = perDayDecay * 7f;
                 float perMonthDecay = perDayDecay * 30f;
 
@@ -612,6 +613,11 @@ namespace GearInfo
 
             if (gear.TryGetComponent(out FireStarterItem fsi))
             {
+                if (fsi.m_IsAccelerant)
+                {
+                    return false;
+                }
+
                 float time = GameManager.GetFireManagerComponent().m_StartFireTimeSeconds + fsi.m_SecondsToIgniteTinder;
                 //float timeWet = GameManager.GetFireManagerComponent().m_StartFireTimeSecondsWet + fsi.m_SecondsToIgniteTinder;
                 float timeAccelerant = Mathf.Clamp(time - 30f, fsi.m_SecondsToIgniteTinder + 0.5f, float.MaxValue);
@@ -665,16 +671,87 @@ namespace GearInfo
                 if (!fromSkill)
                 {
                     result[0] = Localization.Get("GI_FuelBurnTime");
-                    result[1] = $"{time} {Localization.Get(inMinutes ? "GI_Minutes" : "GI_HoursShort")}";
+                    result[1] = $"{time:0.##} {Localization.Get(inMinutes ? "GI_Minutes" : "GI_HoursShort")}";
                 }
                 else
                 {
                     result[0] = Localization.Get("GI_FuelBurnTime");
-                    result[1] = $"{timeSkill} {Localization.Get(inMinutes ? "GI_MinutesShort" : "GI_HoursShort")} ({Localization.Get("GI_Skill")})";
+                    result[1] = $"{timeSkill:0.##} {Localization.Get(inMinutes ? "GI_MinutesShort" : "GI_HoursShort")} ({Localization.Get("GI_Skill")})";
                 }
                 result[2] = $"/ {Localization.Get("GI_FuelHeatOutput")}";
                 result[3] = $"{heatText} ({heatTextAlt})";
 
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetLightSourceBurningTime(GearItem gear, string[] result)
+        {
+            Array.Clear(result, 0, result.Length);
+
+            float time = 0f;
+            float timeLeft = 0f;
+
+            if (gear.TryGetComponent(out FlareItem fi))
+            {
+                time = fi.m_BurnLifetimeMinutes;
+                timeLeft = time - fi.m_ElapsedBurnMinutes;
+            }
+            
+            if (gear.TryGetComponent(out TorchItem ti))
+            {
+                time = ti.m_BurnLifetimeMinutes;
+                timeLeft = time - ti.m_ElapsedBurnMinutes;
+            }
+            
+            if (gear.TryGetComponent(out KeroseneLampItem kli))
+            {
+                time = kli.m_MaxFuel.ToQuantity(1f) / kli.m_FuelBurnPerHour.ToQuantity(1f) * 60f;
+                timeLeft = time * (kli.m_CurrentFuelLiters.ToQuantity(1f) / kli.m_MaxFuel.ToQuantity(1f));
+            }
+
+            if (gear.TryGetComponent(out MatchesItem mi))
+            {
+                time = 0.225f * 12f;
+            }
+
+            if (time > 0f)
+            {
+                bool seconds = time < 1f;
+
+                bool hours = time > 90f;
+
+                float timeReal = time / (12f / (Settings.options.adjustForDifficulty ? GameManager.GetCustomMode().m_DayNightDurationScale : 1f));
+                
+                if (seconds)
+                {
+                    time *= 60f;
+                    timeLeft *= 60f;
+                    timeReal *= 60f;
+                }
+
+                if (hours)
+                {
+                    time /= 60f;
+                    timeLeft /= 60f;
+                    timeReal /= 60f;
+                }
+
+                string timeText = $"{time:0.#}";
+                string timeRealText = $"{timeReal:0.#}";
+                if (timeLeft > 0f)
+                {
+                    timeText = $"{timeLeft:0.#}/ {timeText}";
+                    float timeRealLeft = timeLeft / (12f / (Settings.options.adjustForDifficulty ? GameManager.GetCustomMode().m_DayNightDurationScale : 1f));
+                    timeRealText = $"{timeRealLeft:0.#}/ {timeRealText}";
+                }
+
+                result[0] = Localization.Get("GI_LightSourceBurnTime");
+                result[1] = $"{timeText} {Localization.Get(seconds ? "GI_Seconds" : hours ? "GI_HoursShort" : "GI_Minutes")}";
+                result[2] = $"/ {Localization.Get("GI_RealTime")}";
+                result[3] = $"{timeRealText} {Localization.Get(seconds ? "GI_Seconds" : hours ? "GI_HoursShort" : "GI_Minutes")}";
 
                 return true;
             }

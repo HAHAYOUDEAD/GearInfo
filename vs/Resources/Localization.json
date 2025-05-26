@@ -279,15 +279,15 @@
     "English": "Accelerated",
     "Russian": "С розжигом"
   },
-  "GI_Seconds": {
-
-    "English": "sec",
-    "Russian": "сек"
-  },
   "GI_Skill": {
 
     "English": "Skill",
     "Russian": "Навык"
+  },
+  "GI_Seconds": {
+
+    "English": "sec",
+    "Russian": "сек"
   },
   "GI_SecondsShort": {
 
@@ -311,13 +311,23 @@
   },
   "GI_FuelBurnTime": {
 
-    "English": "Burn time",
+    "English": "Burn duration",
     "Russian": "Время горения"
   },
   "GI_FuelHeatOutput": {
 
     "English": "Heat output",
     "Russian": "Отдача тепла"
+  },
+  "GI_LightSourceBurnTime": {
+
+    "English": "Light duration",
+    "Russian": "Время свечения"
+  },
+  "GI_RealTime": {
+
+    "English": "In real time",
+    "Russian": "Реальное время"
   },
 
 
