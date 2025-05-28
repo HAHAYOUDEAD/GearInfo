@@ -52,7 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="STBlade.Modding.TLD.Il2CppAssemblies.Windows" Version="2.40.0" />
+      <PackageReference Include="STBlade.Modding.TLD.Il2CppAssemblies.Windows" Version="2.42.0" />
       <PackageReference Include="STBlade.Modding.TLD.ModComponent" Version="6.2.3" />
     </ItemGroup>
 

@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime;
 using Il2CppTMPro;
 using Il2CppVLB;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace GearInfo
 {

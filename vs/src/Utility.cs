@@ -9,13 +9,10 @@ global using System.Collections.Generic;
 global using Il2Cpp;
 global using UnityEngine.Events;
 global using UnityEngine.UI;
-global using UnityEngine.EventSystems;
-global using ModComponent;
 global using static GearInfo.InfoHarvester;
 global using UnityEngine.AddressableAssets;
 global using UnityEngine.ResourceManagement.AsyncOperations;
 using Il2CppTMPro;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace GearInfo
@@ -24,7 +21,7 @@ namespace GearInfo
 
     internal class Utility
     {
-        public const string modVersion = "0.9.0";
+        public const string modVersion = "0.9.1";
         public const string modName = "GearInfo";
         public const string modAuthor = "Waltz";
 
@@ -83,6 +80,11 @@ namespace GearInfo
 
             return result;
         }
+
+        //private static bool IsModComponentPresent()
+        //{
+        //    return MelonAssembly.LoadedAssemblies.Any(a => a.Assembly.GetName().Name == "ModComponent");
+        //}
 
         public static bool FastApproximately(float a, float b, float threshold)
         {

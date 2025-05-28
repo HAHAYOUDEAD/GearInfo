@@ -1,23 +1,8 @@
-﻿using Il2Cpp;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Il2CppRewired.Utils.Classes.Utility;
-using Il2CppSystem.Collections;
+﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppTLD.Gear;
 using Il2CppTLD.SaveState;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata.Ecma335;
-
-
-
-//using Il2CppSystem.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
-
-using UnityEngine.AddressableAssets.ResourceLocators;
-
 using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEngine.UIElements;
-using static Il2CppSystem.Linq.Expressions.Interpreter.CastInstruction.CastInstructionNoT;
 
 namespace GearInfo
 {
@@ -74,26 +59,31 @@ namespace GearInfo
         internal static bool TryGetItemOrigin(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
-            
+
             // check if mod
-            var modComponentAssembly = typeof(ModComponent.API.Components.ModBaseComponent).Assembly;
-            var processorType = modComponentAssembly.GetType("ModComponent.Utils.AssetBundleProcessor");
-
-            Traverse processorTraverse = Traverse.Create(processorType);
-            string? output = processorTraverse.Method("GetPrefabBundlePath", gear.name).GetValue() as string;
-
-            if (!string.IsNullOrEmpty(output))
+            var modComponentAssembly = MelonAssembly.LoadedAssemblies.FirstOrDefault(a => a.Assembly.GetName().Name == "ModComponent")?.Assembly;
+            if (modComponentAssembly != null) // ModComponent is present
             {
-                string? folder = processorTraverse.Property("tempFolderName").GetValue() as string;
-                if (!string.IsNullOrEmpty(folder))
+                var processorType = modComponentAssembly.GetType("ModComponent.Utils.AssetBundleProcessor");
+                if (processorType != null)
                 {
-                    string[] split = output.Split($"{folder}\\"); // split full bundle path at MC folder name
-                    split = split[1].Split("\\"); // split at \
-                    string final = char.ToUpper(split[0][0]) + split[0].Substring(1); // capitalize first letter
+                    Traverse processorTraverse = Traverse.Create(processorType);
+                    string? output = processorTraverse.Method("GetPrefabBundlePath", gear.name).GetValue() as string;
 
-                    result[0] = Localization.Get("GI_ModName");
-                    result[1] = Regex.Replace(final, @"(?<=[a-z])(?=[A-Z])", " "); // insert spaces before each capital letter
-                    return true;
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        string? folder = processorTraverse.Property("tempFolderName").GetValue() as string;
+                        if (!string.IsNullOrEmpty(folder))
+                        {
+                            string[] split = output.Split($"{folder}\\"); // split full bundle path at MC folder name
+                            split = split[1].Split("\\"); // split at \
+                            string final = char.ToUpper(split[0][0]) + split[0].Substring(1); // capitalize first letter
+
+                            result[0] = Localization.Get("GI_ModName");
+                            result[1] = Regex.Replace(final, @"(?<=[a-z])(?=[A-Z])", " "); // insert spaces before each capital letter
+                            return true;
+                        }
+                    }
                 }
             }
 

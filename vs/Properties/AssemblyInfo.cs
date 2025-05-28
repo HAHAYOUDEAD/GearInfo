@@ -4,5 +4,6 @@
 [assembly: AssemblyVersion(modVersion)]
 [assembly: AssemblyFileVersion(modVersion)]
 [assembly: MelonInfo(typeof(GearInfo.Main), modName, modVersion, modAuthor)]
+[assembly: MelonOptionalDependencies("ModComponent")]
 
 [assembly: MelonGame("Hinterland", "TheLongDark")]

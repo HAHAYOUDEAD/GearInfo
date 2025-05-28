@@ -1,7 +1,4 @@
-﻿using Il2Cpp;
-using static Il2Cpp.FPSLogger;
-
-namespace GearInfo
+﻿namespace GearInfo
 {
     internal class UnbreakablePatches
     {
@@ -62,38 +59,6 @@ namespace GearInfo
                 }
             }
         }
-        //[HarmonyPatch(typeof(Panel_Inventory), nameof(Panel_Inventory.Update))] 
-        //private static class UIInjection
-        //{
-        //    public static GearItem? currentlySelected;
-
-        //    internal static void Postfix(ref Panel_Inventory __instance)
-        //    {
-        //        if (!InventoryPanelTracker.startTracking) return;
-
-        //        if (__instance.GetCurrentlySelectedItem()?.m_GearItem == currentlySelected) return;
-
-        //        currentlySelected = __instance.GetCurrentlySelectedItem()?.m_GearItem;
-
-        //        if (currentlySelected != null)
-        //        {
-        //            if (Control.IsWindowEnabled())
-        //            {
-        //                Control.AdjustUIPosition(false, true);
-        //                Control.SetupRelevantData(currentlySelected);
-        //            }
-        //            // show UI
-        //            Control.GIUIRoot.active = true;
-        //            Control.CalculateButtonPosition();
-        //        }
-        //        else
-        //        {
-        //            // hide UI
-        //            Control.ToggleWindow(false);
-        //            Control.GIUIRoot.active = false;
-        //        }
-        //    }
-        //}
     }
 }
  
