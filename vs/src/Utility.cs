@@ -14,11 +14,8 @@ global using UnityEngine.AddressableAssets;
 global using UnityEngine.ResourceManagement.AsyncOperations;
 using Il2CppTMPro;
 
-
 namespace GearInfo
 {
-
-
     internal class Utility
     {
         public const string modVersion = "0.9.1";
@@ -81,11 +78,6 @@ namespace GearInfo
             return result;
         }
 
-        //private static bool IsModComponentPresent()
-        //{
-        //    return MelonAssembly.LoadedAssemblies.Any(a => a.Assembly.GetName().Name == "ModComponent");
-        //}
-
         public static bool FastApproximately(float a, float b, float threshold)
         {
             if (threshold > 0f)
@@ -129,9 +121,16 @@ namespace GearInfo
             }
             else
             {
+                if (int.TryParse(Localization.Get("GI_FontSizeTitle"), out int title))
+                { 
+                    if (int.TryParse(Localization.Get("GI_FontSizeData"), out int data))
+                    {
+                        return [title, data];
+                    }
+                }
+
                 return [28, 24];
             }
         }
-
     }
 }
