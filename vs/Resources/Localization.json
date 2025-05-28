@@ -157,47 +157,47 @@
   "GI_WeaponDegrade": {
     "English": "Condition loss",
     "Russian": "Износ оружия",
-    "Turkish": "Silah dayanıklılık kaybı"
+    "Turkish": "Kondisyon kaybı"
   },
   "GI_PPU": {
     "English": "% per use",
     "Russian": "% за раз",
-    "Turkish": "% kullanım başına"
+    "Turkish": "% her vuruş"
   },
   "GI_PPMU": {
     "English": "% per misuse",
     "Russian": "% за плохое обращение",
-    "Turkish": "% kötüye kullanım için"
+    "Turkish": "% her ıska"
   },
   "GI_PPS": {
     "English": "% per shot",
     "Russian": "% за выстрел",
-    "Turkish": "% atış başına"
+    "Turkish": "% her atış"
   },
   "GI_PPH": {
     "English": "% per hour",
     "Russian": "% в час",
-    "Turkish": "% saat başına"
+    "Turkish": "% her saatte"
   },
   "GI_PPM": {
     "English": "% per month",
     "Russian": "% в месяц",
-    "Turkish": "% ay başına"
+    "Turkish": "% her ay"
   },
   "GI_PPW": {
     "English": "% per week",
     "Russian": "% в неделю",
-    "Turkish": "% hafta başına"
+    "Turkish": "% her hafta"
   },
   "GI_PPDS": {
     "English": "% per day slept",
     "Russian": "% за день сна",
-    "Turkish": "% günlük uyuma başına"
+    "Turkish": "% her uyuma"
   },
   "GI_ToolIceDamage": {
     "English": "Making ice hole",
     "Russian": "Делая прорубь",
-    "Turkish": "Buz deliği oluştur"
+    "Turkish": "Buzda delik aç"
   },
   "GI_AffectedBySkill": {
     "English": "Affected by skill",
@@ -217,7 +217,7 @@
   "GI_ArrowConditionLoss": {
     "English": "≈ Damage from",
     "Russian": "≈ Повреждение от",
-    "Turkish": "≈ Hasardan kaynaklanan"
+    "Turkish": "≈ kaynaklanan hasardan"
   },
   "GI_HitAnimal": {
     "English": "Flesh",
