@@ -1,375 +1,357 @@
-﻿{
+{
   "GI_ModName": {
-
     "English": "Mod name",
-    "Russian": "Название мода"
+    "Russian": "Название мода",
+    "Turkish": "Mod adı"
   },
   "GI_PrefabName": {
-
     "English": "Prefab name",
-    "Russian": "Имя объекта"
+    "Russian": "Имя объекта",
+    "Turkish": "Prefabrik adı"
   },
   "GI_DLCName": {
-
     "English": "DLC name",
-    "Russian": "Название DLC"
+    "Russian": "Название DLC",
+    "Turkish": "DLC adı"
   },
   "GI_EnglishName": {
-
     "English": "Item name in English",
-    "Russian": "Название на английском"
+    "Russian": "Название на английском",
+    "Turkish": "Öğe adı ingilizcesi"
   },
   "GI_LocalizedName": {
-
     "English": "Item name in system language",
-    "Russian": "Название на языке системы"
+    "Russian": "Название на языке системы",
+    "Turkish": "Öğe adı sistem dilinde"
   },
   "GI_Weight": {
-
     "English": "Weight",
-    "Russian": "Вес"
+    "Russian": "Вес",
+    "Turkish": "Ağırlık"
   },
   "GI_ShelfLife": {
-
     "English": "Shelf life",
-    "Russian": "Хранение"
+    "Russian": "Хранение",
+    "Turkish": "Raf ömrü"
   },
   "GI_DecayRate": {
-
     "English": "Decay rate",
-    "Russian": "Скорость порчи"
+    "Russian": "Скорость порчи",
+    "Turkish": "Çürüme oranı"
   },
   "GI_Days": {
-
     "English": "days",
-    "Russian": "дней"
+    "Russian": "дней",
+    "Turkish": "günler"
   },
   "GI_PPD": {
-
     "English": "% per day",
-    "Russian": "% в день"
+    "Russian": "% в день",
+    "Turkish": "Günlük %"
   },
   "GI_Outdoors": {
-
     "English": "Outdoors",
-    "Russian": "Вне дома"
+    "Russian": "Вне дома",
+    "Turkish": "Dışarıda"
   },
   "GI_CurrentPoisonChance": {
-
     "English": "Current poisoning chance",
-    "Russian": "Текущий шанс отравиться"
+    "Russian": "Текущий шанс отравиться",
+    "Turkish": "Mevcut zehirlenme olasılığı"
   },
   "GI_PoisonChance": {
-
     "English": "Poisoning chance",
-    "Russian": "Шанс отравиться"
+    "Russian": "Шанс отравиться",
+    "Turkish": "Zehirlenme olasılığı"
   },
   "GI_FromDifficulty": {
-
     "English": "Difficulty settings",
-    "Russian": "Настройки сложности"
+    "Russian": "Настройки сложности",
+    "Turkish": "Zorluk ayarları"
   },
   "GI_RawMeat": {
-
     "English": "Raw meat",
-    "Russian": "Сырое мясо"
+    "Russian": "Сырое мясо",
+    "Turkish": "Çiğ et"
   },
   "GI_InsignificantCalories": {
-
     "English": "Morsel",
-    "Russian": "Остатки"
+    "Russian": "Остатки",
+    "Turkish": "Lokma"
   },
   "GI_Above75Condition": {
-
     "English": "Fresh",
-    "Russian": "Свежее"
+    "Russian": "Свежее",
+    "Turkish": "Taze"
   },
   "GI_WornOut": {
-
     "English": "Spoiled",
-    "Russian": "Испорченное"
+    "Russian": "Испорченное",
+    "Turkish": "Bozuk"
   },
   "GI_Below20Condition": {
-
     "English": "Stale",
-    "Russian": "Несвежее"
+    "Russian": "Несвежее",
+    "Turkish": "Bayat"
   },
   "GI_BasePoisonChance": {
-
     "English": "Regular chance",
-    "Russian": "Обычный шанс"
+    "Russian": "Обычный шанс",
+    "Turkish": "Sıradan şans"
   },
   "GI_AtLowCondition": {
-
     "English": "When stale",
-    "Russian": "Несвежее"
+    "Russian": "Несвежее",
+    "Turkish": "Bayatladığında"
   },
   "GI_WhenRuined": {
-
     "English": "When spoiled",
-    "Russian": "Испорченное"
+    "Russian": "Испорченное",
+    "Turkish": "Bozulduğunda"
   },
   "GI_ClothingWearOutRate": {
-
     "English": "Wear out rate",
-    "Russian": "Износ одежды"
+    "Russian": "Износ одежды",
+    "Turkish": "Aşınma oranı"
   },
   "GI_ThirstAdd": {
-
     "English": "Thirst provoking",
-    "Russian": "Вызывание жажды"
+    "Russian": "Вызывание жажды",
+    "Turkish": "Susuzluk yapan"
   },
   "GI_ThirstQuench": {
-
     "English": "Thirst quenching",
-    "Russian": "Утоление жажды"
+    "Russian": "Утоление жажды",
+    "Turkish": "Susuzluğu gideren"
   },
   "GI_VitaminC": {
-
     "English": "Vitamin C",
-    "Russian": "Витамин C"
+    "Russian": "Витамин C",
+    "Turkish": "C vitamini"
   },
   "GI_Warmth": {
-
     "English": "Base warmth",
-    "Russian": "Согревание"
+    "Russian": "Согревание",
+    "Turkish": "Temel sıcaklık"
   },
   "GI_Windproofness": {
-
     "English": "Windproofness",
-    "Russian": "Ветрозащита"
+    "Russian": "Ветрозащита",
+    "Turkish": "Rüzgar geçirmezlik"
   },
   "GI_BreakThreshold": {
-
     "English": "Breaking threshold",
-    "Russian": "Граница прочности"
+    "Russian": "Граница прочности",
+    "Turkish": "Güç sınırı"
   },
   "GI_CurrentBreakChance": {
-
     "English": "Current chance",
-    "Russian": "Шанс поломки"
+    "Russian": "Шанс поломки",
+    "Turkish": "Kırılma olasılığı"
   },
   "GI_ToolDegrade": {
-
     "English": "Condition loss",
-    "Russian": "Износ инструмента"
+    "Russian": "Износ инструмента",
+    "Turkish": "Sağlamlık kaybı"
   },
   "GI_WeaponDegrade": {
-
     "English": "Condition loss",
-    "Russian": "Износ оружия"
+    "Russian": "Износ оружия",
+    "Turkish": "Silah dayanıklılık kaybı"
   },
   "GI_PPU": {
-
     "English": "% per use",
-    "Russian": "% за раз"
+    "Russian": "% за раз",
+    "Turkish": "% kullanım başına"
   },
   "GI_PPMU": {
-
     "English": "% per misuse",
-    "Russian": "% за плохое обращение"
+    "Russian": "% за плохое обращение",
+    "Turkish": "% kötüye kullanım için"
   },
   "GI_PPS": {
-
     "English": "% per shot",
-    "Russian": "% за выстрел"
+    "Russian": "% за выстрел",
+    "Turkish": "% atış başına"
   },
   "GI_PPH": {
-
     "English": "% per hour",
-    "Russian": "% в час"
+    "Russian": "% в час",
+    "Turkish": "% saat başına"
   },
   "GI_PPM": {
-
     "English": "% per month",
-    "Russian": "% в месяц"
+    "Russian": "% в месяц",
+    "Turkish": "% ay başına"
   },
   "GI_PPW": {
-
     "English": "% per week",
-    "Russian": "% в неделю"
+    "Russian": "% в неделю",
+    "Turkish": "% hafta başına"
   },
   "GI_PPDS": {
-
     "English": "% per day slept",
-    "Russian": "% за день сна"
+    "Russian": "% за день сна",
+    "Turkish": "% günlük uyuma başına"
   },
   "GI_ToolIceDamage": {
-
     "English": "Making ice hole",
-    "Russian": "Делая прорубь"
+    "Russian": "Делая прорубь",
+    "Turkish": "Buz deliği oluştur"
   },
   "GI_AffectedBySkill": {
-
     "English": "Affected by skill",
-    "Russian": "Зависит от навыка"
+    "Russian": "Зависит от навыка",
+    "Turkish": "Etkilenen beceriler"
   },
   "GI_ArrowDurability": {
-
     "English": "Arrow durability",
-    "Russian": "Прочность стрелы"
+    "Russian": "Прочность стрелы",
+    "Turkish": "Ok dayanıklılığı"
   },
   "GI_ArrowDamage": {
-
     "English": "Damage",
-    "Russian": "Урон"
+    "Russian": "Урон",
+    "Turkish": "Hasar"
   },
   "GI_ArrowConditionLoss": {
-
     "English": "≈ Damage from",
-    "Russian": "≈ Повреждение от"
+    "Russian": "≈ Повреждение от",
+    "Turkish": "≈ Hasardan kaynaklanan"
   },
   "GI_HitAnimal": {
-
     "English": "Flesh",
-    "Russian": "Плоть"
+    "Russian": "Плоть",
+    "Turkish": "Vücut"
   },
   "GI_HitWood": {
-
     "English": "Wood",
-    "Russian": "Дерево"
+    "Russian": "Дерево",
+    "Turkish": "Odun"
   },
   "GI_HitSnow": {
-
     "English": "Snow",
-    "Russian": "Снег"
+    "Russian": "Снег",
+    "Turkish": "Kar"
   },
   "GI_HitStone": {
-
     "English": "Stone",
-    "Russian": "Камень"
+    "Russian": "Камень",
+    "Turkish": "Taş"
   },
   "GI_HitMetal": {
-
     "English": "Metal",
-    "Russian": "Металл"
+    "Russian": "Металл",
+    "Turkish": "Metal"
   },
   "GI_JamThreshold": {
-
     "English": "Jamming threshold",
-    "Russian": "Граница надежности"
+    "Russian": "Граница надежности",
+    "Turkish": "Tutukluluk sınırı"
   },
   "GI_CurrentJamChance": {
-
     "English": "Current chance",
-    "Russian": "Шанс заклинивания"
+    "Russian": "Шанс заклинивания",
+    "Turkish": "Kırılma olasılığı"
   },
   "GI_Deterioration": {
-
     "English": "Deterioration",
-    "Russian": "Естественный износ"
+    "Russian": "Естественный износ",
+    "Turkish": "Aşınma"
   },
   "GI_Crafting": {
-
     "English": "Crafting",
-    "Russian": "Ремесло"
+    "Russian": "Ремесло",
+    "Turkish": "Üretim"
   },
   "GI_BowDamageMult": {
-
     "English": "Arrow damage multiplier",
-    "Russian": "Множитель урона от стрел"
+    "Russian": "Множитель урона от стрел",
+    "Turkish": "Ok hasar çarpanı"
   },
   "GI_StartFireTime": {
-
     "English": "Firestarting",
-    "Russian": "Разведение огня"
+    "Russian": "Разведение огня",
+    "Turkish": "Ateş yakma"
   },
   "GI_StartFireTimeAccelerated": {
-
     "English": "Accelerated",
-    "Russian": "С розжигом"
+    "Russian": "С розжигом",
+    "Turkish": "Hızlandırma"
   },
   "GI_Skill": {
-
     "English": "Skill",
-    "Russian": "Навык"
+    "Russian": "Навык",
+    "Turkish": "Beceriler"
   },
   "GI_Seconds": {
-
     "English": "sec",
-    "Russian": "сек"
+    "Russian": "сек",
+    "Turkish": "sn"
   },
   "GI_SecondsShort": {
-
     "English": "s",
-    "Russian": "с"
+    "Russian": "с",
+    "Turkish": "dk"
   },
   "GI_HoursShort": {
-
     "English": "h",
-    "Russian": "ч"
+    "Russian": "ч",
+    "Turkish": "saat"
   },
   "GI_Minutes": {
-
     "English": "min",
-    "Russian": "мин"
+    "Russian": "мин",
+    "Turkish": "saniye"
   },
   "GI_MinutesShort": {
-
     "English": "m",
-    "Russian": "м"
+    "Russian": "м",
+    "Turkish": "sb"
   },
   "GI_FuelBurnTime": {
-
     "English": "Burn duration",
-    "Russian": "Время горения"
+    "Russian": "Время горения",
+    "Turkish": "Yanma süresi"
   },
   "GI_FuelHeatOutput": {
-
     "English": "Heat output",
-    "Russian": "Отдача тепла"
+    "Russian": "Отдача тепла",
+    "Turkish": "Isı yayılımı"
   },
   "GI_LightSourceBurnTime": {
-
     "English": "Light duration",
-    "Russian": "Время свечения"
+    "Russian": "Время свечения",
+    "Turkish": "Işık süresi"
   },
   "GI_RealTime": {
-
     "English": "In real time",
-    "Russian": "Реальное время"
+    "Russian": "Реальное время",
+    "Turkish": "Gerçek zamanda"
   },
-
-
-
-
   "GI_AdjustForDifficulty": {
-
     "English": "Adjust for current difficulty",
-    "Russian": "С учётом текущего уровня сложности"
+    "Russian": "С учётом текущего уровня сложности",
+    "Turkish": "Mevcut zorluğa göre ayarlayın"
   },
-
-
-
-
-
-
-
-
-
   "GI_Message_Copied": {
-
     "English": "Info copied to clipboard",
-    "Russian": "Скопировано в буфер обмена"
+    "Russian": "Скопировано в буфер обмена",
+    "Turkish": "Bilgi panoya kopyalandı"
   },
-
-
-
-
-
   "GI_IsCat": {
-
     "English": "Is this a cat?",
-    "Russian": "Это кот?"
+    "Russian": "Это кот?",
+    "Turkish": "Bu kedi mi?"
   },
   "GI_CouldBeACat": {
-
     "English": "You could say so",
-    "Russian": "В некоторой степени"
+    "Russian": "В некоторой степени",
+    "Turkish": "Öyle diyebilirsin"
   },
   "GI_AbsolutelyNotACat": {
-
     "English": "In no way is this a cat",
-    "Russian": "Ни в коем случае"
+    "Russian": "Ни в коем случае",
+    "Turkish": "Bu kesinlikle bir kedi değil!"
   }
 }
