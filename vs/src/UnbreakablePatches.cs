@@ -13,6 +13,8 @@
 
                 if (enable)
                 {
+                    Control.globalDecayMult = Settings.options.adjustForDifficulty ? GameManager.GetExperienceModeManagerComponent().GetDecayScale() : 1f;
+
                     // instantiate and hide UI
                     Control.SetupUI();
                     Control.GIUIRoot.active = false;
