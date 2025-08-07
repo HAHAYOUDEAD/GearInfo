@@ -18,7 +18,7 @@ namespace GearInfo
 {
     internal class Utility
     {
-        public const string modVersion = "0.9.2";
+        public const string modVersion = "0.9.4";
         public const string modName = "GearInfo";
         public const string modAuthor = "Waltz";
 
@@ -94,7 +94,7 @@ namespace GearInfo
         {
             CharacterSet cs = Localization.GetCharacterSet();
 
-            if (cs != CharacterSet.Latin)
+            if (cs == CharacterSet.Cyrillic)
             {
                 if (fontDict.TryGetValue(cs, out TMP_FontAsset fa))
                 {
