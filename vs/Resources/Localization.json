@@ -3,438 +3,511 @@
     "English": "28",
     "Russian": "24",
     "Turkish": "24",
-    "Italian": "20"
+    "Italian": "20",
+	"Simplified Chinese":"24"
   },
   "GI_FontSizeData": {
     "English": "24",
     "Russian": "20",
     "Turkish": "22",
-    "Italian": "18"
+    "Italian": "18",
+	"Simplified Chinese":"20"
   },
   "GI_ModName": {
     "English": "Mod name",
     "Russian": "Название мода",
     "Turkish": "Mod adı",
-    "Italian": "Nome Mod"
+    "Italian": "Nome Mod",
+	"Simplified Chinese":"模组名称"
   },
   "GI_PrefabName": {
     "English": "Prefab name",
     "Russian": "Имя объекта",
     "Turkish": "Prefabrik adı",
-    "Italian": "Nome Prefabbricato"
+    "Italian": "Nome Prefabbricato",
+	"Simplified Chinese":"代码"
   },
   "GI_DLCName": {
     "English": "DLC name",
     "Russian": "Название DLC",
     "Turkish": "DLC adı",
-    "Italian": "Nome DLC"
+    "Italian": "Nome DLC",
+	"Simplified Chinese":"DLC名称"
   },
   "GI_EnglishName": {
     "English": "Item name in English",
     "Russian": "Название на английском",
     "Turkish": "Öğe adı ingilizcesi",
-    "Italian": "Nome oggetto in Inglese"
+    "Italian": "Nome oggetto in Inglese",
+	"Simplified Chinese":"英文名"
   },
   "GI_LocalizedName": {
     "English": "Item name in system language",
     "Russian": "Название на языке системы",
     "Turkish": "Öğe adı sistem dilinde",
-    "Italian": "Nome oggetto nella lingua del sistema"
+    "Italian": "Nome oggetto nella lingua del sistema",
+	"Simplified Chinese":"系统名"
   },
   "GI_Weight": {
     "English": "Weight",
     "Russian": "Вес",
     "Turkish": "Ağırlık",
-    "Italian": "Peso"
+    "Italian": "Peso",
+	"Simplified Chinese":"重量"
   },
   "GI_ShelfLife": {
     "English": "Shelf life",
     "Russian": "Хранение",
     "Turkish": "Raf ömrü",
-    "Italian": "Durata di conservazione"
+    "Italian": "Durata di conservazione",
+	"Simplified Chinese":"保质期"
   },
   "GI_DecayRate": {
     "English": "Decay rate",
     "Russian": "Скорость порчи",
     "Turkish": "Çürüme oranı",
-    "Italian": "Tasso di decadimento"
+    "Italian": "Tasso di decadimento",
+	"Simplified Chinese":"衰减速率"
   },
   "GI_Days": {
     "English": "days",
     "Russian": "дней",
     "Turkish": "günler",
-    "Italian": "Giorni"
+    "Italian": "Giorni",
+	"Simplified Chinese":"天"
   },
   "GI_PPD": {
     "English": "% per day",
     "Russian": "% в день",
     "Turkish": "Günlük %",
-    "Italian": "% per giorno"
+    "Italian": "% per giorno",
+	"Simplified Chinese":"% 每天"
   },
   "GI_Outdoors": {
     "English": "Outdoors",
     "Russian": "Вне дома",
     "Turkish": "Dışarıda",
-    "Italian": "All'aperto"
+    "Italian": "All'aperto",
+	"Simplified Chinese":"室外"
   },
   "GI_CurrentPoisonChance": {
     "English": "Current poisoning chance",
     "Russian": "Текущий шанс отравиться",
     "Turkish": "Mevcut zehirlenme olasılığı",
-    "Italian": "Possibilità attuale di avvelenamento"
+    "Italian": "Possibilità attuale di avvelenamento",
+	"Simplified Chinese":"当前中毒几率"
   },
   "GI_PoisonChance": {
     "English": "Poisoning chance",
     "Russian": "Шанс отравиться",
     "Turkish": "Zehirlenme olasılığı",
-    "Italian": "Possibilità di avvelenamento"
+    "Italian": "Possibilità di avvelenamento",
+	"Simplified Chinese":"中毒几率"
   },
   "GI_FromDifficulty": {
     "English": "Difficulty settings",
     "Russian": "Настройки сложности",
     "Turkish": "Zorluk ayarları",
-    "Italian": "Impostazioni di difficoltà"
+    "Italian": "Impostazioni di difficoltà",
+	"Simplified Chinese":"难度设置"
   },
   "GI_RawMeat": {
     "English": "Raw meat",
     "Russian": "Сырое мясо",
     "Turkish": "Çiğ et",
-    "Italian": "Carne Cruda"
+    "Italian": "Carne Cruda",
+	"Simplified Chinese":"生肉"
   },
   "GI_InsignificantCalories": {
     "English": "Morsel",
     "Russian": "Остатки",
     "Turkish": "Lokma",
-    "Italian": "Boccone"
+    "Italian": "Boccone",
+	"Simplified Chinese":"小块"
   },
   "GI_Above75Condition": {
     "English": "Fresh",
     "Russian": "Свежее",
     "Turkish": "Taze",
-    "Italian": "Fresco"
+    "Italian": "Fresco",
+	"Simplified Chinese":"新鲜"
   },
   "GI_WornOut": {
     "English": "Spoiled",
     "Russian": "Испорченное",
     "Turkish": "Bozuk",
-    "Italian": "Avariato"
+    "Italian": "Avariato",
+	"Simplified Chinese":"变质"
   },
   "GI_Below20Condition": {
     "English": "Stale",
     "Russian": "Несвежее",
     "Turkish": "Bayat",
-    "Italian": "Stantio"
+    "Italian": "Stantio",
+	"Simplified Chinese":"过期"
   },
   "GI_BasePoisonChance": {
     "English": "Regular chance",
     "Russian": "Обычный шанс",
     "Turkish": "Sıradan şans",
-    "Italian": "Possibilità regolare"
+    "Italian": "Possibilità regolare",
+	"Simplified Chinese":"基础概率"
   },
   "GI_AtLowCondition": {
     "English": "When stale",
     "Russian": "Несвежее",
     "Turkish": "Bayatladığında",
-    "Italian": "Quando è stantio"
+    "Italian": "Quando è stantio",
+	"Simplified Chinese":"过期"
   },
   "GI_WhenRuined": {
     "English": "When spoiled",
     "Russian": "Испорченное",
     "Turkish": "Bozulduğunda",
-    "Italian": "Quando è avariato"
+    "Italian": "Quando è avariato",
+	"Simplified Chinese":"变质"
   },
   "GI_ClothingWearOutRate": {
     "English": "Wear out rate",
     "Russian": "Износ одежды",
     "Turkish": "Aşınma oranı",
-    "Italian": "Tasso di usura"
+    "Italian": "Tasso di usura",
+	"Simplified Chinese":"磨损率"
   },
   "GI_ThirstAdd": {
     "English": "Thirst provoking",
     "Russian": "Вызывание жажды",
     "Turkish": "Susuzluk yapan",
-    "Italian": "Assetante"
+    "Italian": "Assetante",
+	"Simplified Chinese":"口渴"
   },
   "GI_ThirstQuench": {
     "English": "Thirst quenching",
     "Russian": "Утоление жажды",
     "Turkish": "Susuzluğu gideren",
-    "Italian": "Dissetante"
+    "Italian": "Dissetante",
+	"Simplified Chinese":"解渴"
   },
   "GI_VitaminC": {
     "English": "Vitamin C",
     "Russian": "Витамин C",
     "Turkish": "C vitamini",
-    "Italian": "Vitamina C"
+    "Italian": "Vitamina C",
+	"Simplified Chinese":"维生素C"
   },
   "GI_Warmth": {
     "English": "Base warmth",
     "Russian": "Согревание",
     "Turkish": "Temel sıcaklık",
-    "Italian": "Calore di base"
+    "Italian": "Calore di base",
+	"Simplified Chinese":"温度"
   },
   "GI_Windproofness": {
     "English": "Windproofness",
     "Russian": "Ветрозащита",
     "Turkish": "Rüzgar geçirmezlik",
-    "Italian": "Resistenza al vento"
+    "Italian": "Resistenza al vento",
+	"Simplified Chinese":"防风"
   },
   "GI_BreakThreshold": {
     "English": "Breaking threshold",
     "Russian": "Граница прочности",
     "Turkish": "Güç sınırı",
-    "Italian": "Soglia di rottura"
+    "Italian": "Soglia di rottura",
+	"Simplified Chinese":"损坏阈值"
   },
   "GI_CurrentBreakChance": {
     "English": "Current chance",
     "Russian": "Шанс поломки",
     "Turkish": "Kırılma olasılığı",
-    "Italian": "Possibilità attuale"
+    "Italian": "Possibilità attuale",
+	"Simplified Chinese":"当前几率"
   },
   "GI_ToolDegrade": {
     "English": "Condition loss",
     "Russian": "Износ инструмента",
     "Turkish": "Sağlamlık kaybı",
-    "Italian": "Perdita di condizione"
+    "Italian": "Perdita di condizione",
+	"Simplified Chinese":"耐久损耗"
   },
   "GI_WeaponDegrade": {
     "English": "Condition loss",
     "Russian": "Износ оружия",
     "Turkish": "Kondisyon kaybı",
-    "Italian": "Perdita di condizione"
+    "Italian": "Perdita di condizione",
+	"Simplified Chinese":"耐久损耗"
   },
   "GI_PPU": {
     "English": "% per use",
     "Russian": "% за раз",
     "Turkish": "% her vuruş",
-    "Italian": "% per uso"
+    "Italian": "% per uso",
+	"Simplified Chinese":"% 每次使用"
   },
   "GI_PPMU": {
     "English": "% per misuse",
     "Russian": "% за плохое обращение",
     "Turkish": "% her ıska",
-    "Italian": "% per uso improprio"
+    "Italian": "% per uso improprio",
+	"Simplified Chinese":"% 每次误操"
   },
   "GI_PPS": {
     "English": "% per shot",
     "Russian": "% за выстрел",
     "Turkish": "% her atış",
-    "Italian": "% per sparo"
+    "Italian": "% per sparo",
+	"Simplified Chinese":"% 每射一次"
   },
   "GI_PPH": {
     "English": "% per hour",
     "Russian": "% в час",
     "Turkish": "% her saatte",
-    "Italian": "% per ora"
+    "Italian": "% per ora",
+	"Simplified Chinese":"% 每小时"
   },
   "GI_PPM": {
     "English": "% per month",
     "Russian": "% в месяц",
     "Turkish": "% her ay",
-    "Italian": "% per mese"
+    "Italian": "% per mese",
+	"Simplified Chinese":"% 每月"
   },
   "GI_PPW": {
     "English": "% per week",
     "Russian": "% в неделю",
     "Turkish": "% her hafta",
-    "Italian": "% per settimana"
+    "Italian": "% per settimana",
+	"Simplified Chinese":"% 每周"
   },
   "GI_PPDS": {
     "English": "% per day slept",
     "Russian": "% за день сна",
     "Turkish": "% her uyuma",
-    "Italian": "% per giorno dormito"
+    "Italian": "% per giorno dormito",
+	"Simplified Chinese":"% 每睡一次"
   },
   "GI_ToolIceDamage": {
     "English": "Making ice hole",
     "Russian": "Делая прорубь",
     "Turkish": "Buzda delik aç",
-    "Italian": "Creazione buco di ghiaccio"
+    "Italian": "Creazione buco di ghiaccio",
+	"Simplified Chinese":"凿冰洞"
   },
   "GI_AffectedBySkill": {
     "English": "Affected by skill",
     "Russian": "Зависит от навыка",
     "Turkish": "Etkilenen beceriler",
-    "Italian": "Influenzato dall'abilità"
+    "Italian": "Influenzato dall'abilità",
+	"Simplified Chinese":"受技能影响"
   },
   "GI_ArrowDurability": {
     "English": "Arrow durability",
     "Russian": "Прочность стрелы",
     "Turkish": "Ok dayanıklılığı",
-    "Italian": "Durata della freccia"
+    "Italian": "Durata della freccia",
+	"Simplified Chinese":"箭矢耐久"
   },
   "GI_ArrowDamage": {
     "English": "Damage",
     "Russian": "Урон",
     "Turkish": "Hasar",
-    "Italian": "Danno"
+    "Italian": "Danno",
+	"Simplified Chinese":"伤害"
   },
   "GI_ArrowConditionLoss": {
     "English": "≈ Damage from",
     "Russian": "≈ Повреждение от",
     "Turkish": "≈ kaynaklanan hasardan",
-    "Italian": "≈ Danno da"
+    "Italian": "≈ Danno da",
+	"Simplified Chinese":"质地伤害"
   },
   "GI_HitAnimal": {
     "English": "Flesh",
     "Russian": "Плоть",
     "Turkish": "Vücut",
-    "Italian": "Carne"
+    "Italian": "Carne",
+	"Simplified Chinese":"肉体"
   },
   "GI_HitWood": {
     "English": "Wood",
     "Russian": "Дерево",
     "Turkish": "Odun",
-    "Italian": "Legno"
+    "Italian": "Legno",
+	"Simplified Chinese":"木质"
   },
   "GI_HitSnow": {
     "English": "Snow",
     "Russian": "Снег",
     "Turkish": "Kar",
-    "Italian": "Neve"
+    "Italian": "Neve",
+	"Simplified Chinese":"雪地"
   },
   "GI_HitStone": {
     "English": "Stone",
     "Russian": "Камень",
     "Turkish": "Taş",
-    "Italian": "Pietra"
+    "Italian": "Pietra",
+	"Simplified Chinese":"石质"
   },
   "GI_HitMetal": {
     "English": "Metal",
     "Russian": "Металл",
     "Turkish": "Metal",
-    "Italian": "Metallo"
+    "Italian": "Metallo",
+	"Simplified Chinese":"金属"
   },
   "GI_JamThreshold": {
     "English": "Jamming threshold",
     "Russian": "Граница надежности",
     "Turkish": "Tutukluluk sınırı",
-    "Italian": "Soglia di inceppamento"
+    "Italian": "Soglia di inceppamento",
+	"Simplified Chinese":"卡壳阈值"
   },
   "GI_CurrentJamChance": {
     "English": "Current chance",
     "Russian": "Шанс заклинивания",
     "Turkish": "Kırılma olasılığı",
-    "Italian": "Possibilità attuale"
+    "Italian": "Possibilità attuale",
+	"Simplified Chinese":"当前几率"
   },
   "GI_Deterioration": {
     "English": "Deterioration",
     "Russian": "Естественный износ",
     "Turkish": "Aşınma",
-    "Italian": "Deterioramento"
+    "Italian": "Deterioramento",
+	"Simplified Chinese":"状态损耗"
   },
   "GI_Crafting": {
     "English": "Crafting",
     "Russian": "Ремесло",
     "Turkish": "Üretim",
-    "Italian": "Creazione"
+    "Italian": "Creazione",
+	"Simplified Chinese":"工艺"
   },
   "GI_BowDamageMult": {
     "English": "Arrow damage multiplier",
     "Russian": "Множитель урона от стрел",
     "Turkish": "Ok hasar çarpanı",
-    "Italian": "Moltiplicatore danno della freccia"
+    "Italian": "Moltiplicatore danno della freccia",
+	"Simplified Chinese":"箭矢伤害倍数"
   },
   "GI_StartFireTime": {
     "English": "Firestarting",
     "Russian": "Разведение огня",
     "Turkish": "Ateş yakma",
-    "Italian": "Accensione del Fuoco"
+    "Italian": "Accensione del Fuoco",
+	"Simplified Chinese":"生火"
   },
   "GI_StartFireTimeAccelerated": {
     "English": "Accelerated",
     "Russian": "С розжигом",
     "Turkish": "Hızlandırma",
-    "Italian": "Accelerato"
+    "Italian": "Accelerato",
+	"Simplified Chinese":"助燃"
   },
   "GI_Skill": {
     "English": "Skill",
     "Russian": "Навык",
     "Turkish": "Beceriler",
-    "Italian": "Abilità"
+    "Italian": "Abilità",
+	"Simplified Chinese":"技能"
   },
   "GI_Seconds": {
     "English": "sec",
     "Russian": "сек",
     "Turkish": "sn",
-    "Italian": "sec"
+    "Italian": "sec",
+	"Simplified Chinese":"秒"
   },
   "GI_SecondsShort": {
     "English": "s",
     "Russian": "с",
     "Turkish": "dk",
-    "Italian": "s"
+    "Italian": "s",
+	"Simplified Chinese":"秒"
   },
   "GI_HoursShort": {
     "English": "h",
     "Russian": "ч",
     "Turkish": "saat",
-    "Italian": "h"
+    "Italian": "h",
+	"Simplified Chinese":"小时"
   },
   "GI_Minutes": {
     "English": "min",
     "Russian": "мин",
     "Turkish": "saniye",
-    "Italian": "min"
+    "Italian": "min",
+	"Simplified Chinese":"分钟"
   },
   "GI_MinutesShort": {
     "English": "m",
     "Russian": "м",
     "Turkish": "sb",
-    "Italian": "m"
+    "Italian": "m",
+	"Simplified Chinese":"分钟"
   },
   "GI_FuelBurnTime": {
     "English": "Burn duration",
     "Russian": "Время горения",
     "Turkish": "Yanma süresi",
-    "Italian": "Durata della combustione"
+    "Italian": "Durata della combustione",
+	"Simplified Chinese":"燃烧持续时间"
   },
   "GI_FuelHeatOutput": {
     "English": "Heat output",
     "Russian": "Отдача тепла",
     "Turkish": "Isı yayılımı",
-    "Italian": "Potenza termica"
+    "Italian": "Potenza termica",
+	"Simplified Chinese":"热量输出"
   },
   "GI_LightSourceBurnTime": {
     "English": "Light duration",
     "Russian": "Время свечения",
     "Turkish": "Işık süresi",
-    "Italian": "Durata della luce"
+    "Italian": "Durata della luce",
+	"Simplified Chinese":"发光时长"
   },
   "GI_RealTime": {
     "English": "In real time",
     "Russian": "Реальное время",
     "Turkish": "Gerçek zamanda",
-    "Italian": "In tempo reale"
+    "Italian": "In tempo reale",
+	"Simplified Chinese":"现实时间"
   },
   "GI_AdjustForDifficulty": {
     "English": "Adjust for current difficulty",
     "Russian": "С учётом текущего уровня сложности",
     "Turkish": "Mevcut zorluğa göre ayarlayın",
-    "Italian": "Regola per la difficoltà attuale"
+    "Italian": "Regola per la difficoltà attuale",
+	"Simplified Chinese":"随难度变化"
   },
   "GI_Message_Copied": {
     "English": "Info copied to clipboard",
     "Russian": "Скопировано в буфер обмена",
     "Turkish": "Bilgi panoya kopyalandı",
-    "Italian": "Info copiate negli appunti"
+    "Italian": "Info copiate negli appunti",
+	"Simplified Chinese":"复制成功"
   },
   "GI_IsCat": {
     "English": "Is this a cat?",
     "Russian": "Это кот?",
     "Turkish": "Bu kedi mi?",
-    "Italian": "Questo è un gatto?"
+    "Italian": "Questo è un gatto?",
+	"Simplified Chinese":"这是猫吗？"
   },
   "GI_CouldBeACat": {
     "English": "You could say so",
     "Russian": "В некоторой степени",
     "Turkish": "Öyle diyebilirsin",
-    "Italian": "Si può dire così"
+    "Italian": "Si può dire così",
+	"Simplified Chinese":"你可以这么说"
   },
   "GI_AbsolutelyNotACat": {
     "English": "In no way is this a cat",
     "Russian": "Ни в коем случае",
     "Turkish": "Bu kesinlikle bir kedi değil!",
-    "Italian": "Sicuramente non è un gatto!"
+    "Italian": "Sicuramente non è un gatto!",
+	"Simplified Chinese":"这绝对不是猫"
   }
 }
