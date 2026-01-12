@@ -3,6 +3,7 @@ using Il2CppTMPro;
 using Il2CppInterop.Runtime;
 using Il2CppSystem.Net;
 using static GearInfo.InfoHarvester;
+using Il2CppInterop.Runtime.Attributes;
 
 namespace GearInfo
 {
@@ -58,6 +59,7 @@ namespace GearInfo
             buttonSwitch?.onClick.RemoveAllListeners();
         }
 
+        [HideFromIl2Cpp]
         public void SetFields(string[] entries, AltInfoType ait = AltInfoType.None)
         {
             
@@ -72,6 +74,7 @@ namespace GearInfo
             if (ait != AltInfoType.None) altInfoType = ait;
         }
 
+        [HideFromIl2Cpp]
         public void SetButton(ButtonType buttonType, Action a)
         {
             switch (buttonType)
@@ -89,8 +92,6 @@ namespace GearInfo
                     buttonSwitch.onClick.AddListener(DelegateSupport.ConvertDelegate<UnityAction>(a));
                     break;
             }
-
-            
         }
     }
 }

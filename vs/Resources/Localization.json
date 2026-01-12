@@ -447,6 +447,13 @@
     "Italian": "m",
 	"Simplified Chinese":"分钟"
   },
+  "GI_PercentAtCondition": {
+    "English": "at",
+    "Russian": "при",
+    "Turkish": "@",
+    "Italian": "a",
+    "Simplified Chinese": "于"
+  },
   "GI_FuelBurnTime": {
     "English": "Burn duration",
     "Russian": "Время горения",

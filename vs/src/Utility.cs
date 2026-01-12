@@ -18,7 +18,7 @@ namespace GearInfo
 {
     internal class Utility
     {
-        public const string modVersion = "0.9.4";
+        public const string modVersion = "0.9.5";
         public const string modName = "GearInfo";
         public const string modAuthor = "Waltz";
 
@@ -51,17 +51,14 @@ namespace GearInfo
 
         public static AssetBundle? LoadEmbeddedAssetBundle(string name)
         {
-            AssetBundle? result = null;
-
-            Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcesFolder + name);
-            if (stream != null)
+            using (Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcesFolder + name))
             {
-                MemoryStream memoryStream = new MemoryStream((int)stream.Length);
-                stream.CopyTo(memoryStream);
-                result = AssetBundle.LoadFromMemory(memoryStream.ToArray());
-            }
+                MemoryStream? memory = new((int)stream.Length);
+                stream!.CopyTo(memory);
 
-            return result;
+                Il2CppSystem.IO.MemoryStream memoryStream = new(memory.ToArray());
+                return AssetBundle.LoadFromStream(memoryStream);
+            };
         }
 
         public static string? LoadEmbeddedJSON(string name)

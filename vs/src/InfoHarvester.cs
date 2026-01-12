@@ -259,10 +259,13 @@ namespace GearInfo
                     }
                 }
 
+                string maxConditionThreshold = isMeat ? "100" : "75";
+
                 result[0] = Localization.Get(calculateCurrent ? "GI_CurrentPoisonChance" : "GI_PoisonChance");
-                result[1] = calculateCurrent ? 
+                result[1] = calculateCurrent ?
                    describedCalculated :
-                   $"{chance}% ({chance20}% {Localization.Get("GI_AtLowCondition")} | {chance0}% {Localization.Get("GI_WhenRuined")})";
+                   //$"{chance}% ({chance20}% {Localization.Get("GI_AtLowCondition")} | {chance0}% {Localization.Get("GI_WhenRuined")})";
+                   $"{chance}% {Localization.Get("GI_PercentAtCondition")} {maxConditionThreshold}* | {chance20}% {Localization.Get("GI_PercentAtCondition")} 20* | {chance0}% {Localization.Get("GI_WhenRuined")}";
                 return true;
             }
 
