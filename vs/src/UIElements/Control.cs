@@ -2,6 +2,7 @@
 using Il2CppInterop.Runtime;
 using Il2CppTMPro;
 using Il2CppVLB;
+using Unity.XGamingRuntime;
 using UnityEngine;
 
 namespace GearInfo
@@ -39,6 +40,8 @@ namespace GearInfo
 
         public static float globalDecayMult = 1f;
 
+        public static Vector2 mainWindowAnchor;
+
         public static void SetupUI()
         {
             if (GIUIRoot == null)
@@ -69,6 +72,7 @@ namespace GearInfo
                 DifficultySwitchReplaceGraphic(DifficultyToggle.isOn);
                 DifficultyToggle.onValueChanged.AddListener(DelegateSupport.ConvertDelegate<UnityAction<bool>>(DifficultySwitchAction));
                 MainWindow.active = false;
+                mainWindowAnchor = MainWindow.GetComponent<RectTransform>().anchoredPosition;
             }
         }
 
@@ -507,6 +511,32 @@ namespace GearInfo
             DifficultyToggle.spriteState = ss;
         }
 
+        public static void AdjustForUltraWide(bool isUltraWide)
+        {
+            GIUIRoot.GetComponent<CanvasScaler>().m_MatchWidthOrHeight = isUltraWide ? 1f : 0f;
+        }
+
+        public static float CalculateUltraWideOffset()
+        {
+            if (IsUltraWide(out float aspect))
+            {
+                float refWidth = 1920f;
+                float refHeight = 1080f;
+
+                float canvasWidth = refHeight * aspect;
+
+                return (canvasWidth - refWidth) / 2f;
+            }
+            return 0f;
+        }
+
+        public static bool IsUltraWide(out float aspect)
+        {
+            float screenRatio = (float)Screen.width / (float)Screen.height;
+            aspect = screenRatio;
+            return screenRatio > 2.2f;
+        }
+
         public static void CalculateMainButtonPosition()
         {
             Vector2 pos = MainButtonAnchor.anchoredPosition;
@@ -516,7 +546,27 @@ namespace GearInfo
             if (buttonOnLeftSide) pos.x -= label.mCalculatedSize.x * conversion + distance;
             else pos.x += label.mCalculatedSize.x * conversion + distance;
 
+            if (IsUltraWide(out _))
+            {
+                float ultraWideOffset = CalculateUltraWideOffset();
+                pos.x -= ultraWideOffset;
+                OffsetMainWindow(ultraWideOffset);
+                AdjustForUltraWide(true);
+            }
+            else
+            {
+                OffsetMainWindow(0f);
+                AdjustForUltraWide(false);
+            }    
+
             MainButton.GetComponent<RectTransform>().anchoredPosition = pos;
+        }
+
+        public static void OffsetMainWindow(float offset)
+        {
+            Vector2 pos = mainWindowAnchor;
+            pos.x -= offset;
+            MainWindow.GetComponent<RectTransform>().anchoredPosition = pos;
         }
     }
 }

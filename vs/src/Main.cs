@@ -2,6 +2,8 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using LocalizationUtilities;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using Il2CppVLB;
+using UnityEngine.EventSystems;
 
 namespace GearInfo
 {
@@ -41,6 +43,15 @@ namespace GearInfo
             Settings.OnLoad();
 
             PreComputeArrowHitDamageMult();
+        }
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            if (IsScenePlayable(sceneName))
+            {
+                GameObject? eventCam = GameManager.GetMainCamera()?.gameObject;
+                eventCam?.GetOrAddComponent<EventSystem>();
+                eventCam?.GetOrAddComponent<StandaloneInputModule>();
+            }
         }
     }
 }
