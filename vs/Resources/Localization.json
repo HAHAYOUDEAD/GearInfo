@@ -516,5 +516,12 @@
     "Turkish": "Bu kesinlikle bir kedi değil!",
     "Italian": "Sicuramente non è un gatto!",
 	"Simplified Chinese":"这绝对不是猫"
+  },
+  "GI_PerItem": {
+    "English": "each",
+    "Russian": "/шт.",
+    "Turkish": "adet başı",
+    "Italian": "ciascuno",
+    "Simplified Chinese": "每个"
   }
 }

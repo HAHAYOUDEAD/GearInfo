@@ -18,7 +18,7 @@ namespace GearInfo
 {
     internal class Utility
     {
-        public const string modVersion = "0.9.6";
+        public const string modVersion = "0.9.7";
         public const string modName = "GearInfo";
         public const string modAuthor = "Waltz";
 

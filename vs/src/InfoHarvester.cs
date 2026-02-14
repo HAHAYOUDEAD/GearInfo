@@ -117,13 +117,21 @@ namespace GearInfo
         internal static bool TryGetItemWeight(GearItem gear, string[] result)
         {
             Array.Clear(result, 0, result.Length);
-             
+
+            int defaultStack = 1;
+            int currentStack = 1;
+            //float stack = gear.TryGetComponent<StackableItem>(out StackableItem si) ? si.DefaultUnitsInItem : 1f;
+            if (gear.TryGetComponent<StackableItem>(out StackableItem si))
+            {
+                defaultStack = si.m_DefaultUnitsInItem;
+                currentStack = si.m_Units;
+            }
             bool freedom = InterfaceManager.GetPanel<Panel_OptionsMenu>().State.m_Units == MeasurementUnits.Imperial;
-            string weight = $"{gear.GetItemWeightKG().ToStringMetric()} {Localization.Get("GAMEPLAY_kgUnits")}";
-            string weightFreedom = $"{gear.GetItemWeightKG().ToStringImperial()} {Localization.Get("GAMEPLAY_lbsUnits")}";
+            string weight = $"{gear.GetItemWeightKG(1f / defaultStack).ToStringMetric()} {Localization.Get("GAMEPLAY_kgUnits")}";
+            string weightFreedom = $"{gear.GetItemWeightKG(1f / defaultStack).ToStringImperial()} {Localization.Get("GAMEPLAY_lbsUnits")}";
 
             result[0] = Localization.Get("GI_Weight");
-            result[1] = $"{(freedom ? weightFreedom : weight)} ({(freedom ? weight : weightFreedom)})";
+            result[1] = (currentStack > 1 ? $"{currentStack} x " : $"") + $"{(freedom ? weightFreedom : weight)} ({(freedom ? weight : weightFreedom)})";
             return true;
         }
 
@@ -280,6 +288,7 @@ namespace GearInfo
             {
                 float thirst = fi.m_ReduceThirst;
                 float vitc = 0f;
+                bool stackable = false;
 
                 foreach (var n in fi.m_Nutrients)
                 {
@@ -291,10 +300,16 @@ namespace GearInfo
                     }
                 }
 
+                if (gear.TryGetComponent<StackableItem>(out StackableItem si))
+                {
+                    stackable = true;
+                    vitc /= si.m_Units;
+                }
+
                 result[0] = thirst < 0 ? Localization.Get("GI_ThirstAdd") : Localization.Get("GI_ThirstQuench");
                 result[1] = $"{Mathf.Abs(thirst):F0}";
                 result[2] = $"/ {Localization.Get("GI_VitaminC")}";
-                result[3] = vitc.ToString("F0");
+                result[3] = vitc.ToString("F0") + (stackable ? " " + Localization.Get("GI_PerItem") : "");
                 return true;
             }
 

@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <!--This needs to be changed for the mod to compile.-->
-        <TheLongDarkPath>E:\SteamLibrary\steamapps\common\TheLongDark</TheLongDarkPath>
+        <TheLongDarkPath>S:\SteamLibrary\steamapps\common\TheLongDark</TheLongDarkPath>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -57,10 +57,10 @@
 
     <ItemGroup>
       <Reference Include="ModComponent">
-        <HintPath>..\..\SteamLibrary\steamapps\common\TheLongDark\Mods\ModComponent.dll</HintPath>
+        <HintPath>S:\SteamLibrary\steamapps\common\TheLongDark\Mods\ModComponent.dll</HintPath>
       </Reference>
       <Reference Include="ModSettings">
-        <HintPath>..\..\SteamLibrary\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
+        <HintPath>S:\SteamLibrary\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
       </Reference>
     </ItemGroup>
 	
